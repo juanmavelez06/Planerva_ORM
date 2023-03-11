@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import CompCreatePersonal from "./components/CreatePersonal";
 import EditPersonal from "./components/EditPersonal";
+import Card from "./components/Card";
 
 function App() {
   return (

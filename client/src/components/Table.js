@@ -45,7 +45,7 @@ function MyTable() {
     { id: "Account", name: "Acount" },
     {
       id: "button",
-      name: "aaa",
+      name: "",
       formatter: (_, row) =>
         html(`<div class="dropdown dropdown-left">
       <label tabindex="0" class="btn m-1">Click</label>

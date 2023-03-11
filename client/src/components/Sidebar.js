@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import NavBar from "./Navbar";
 import MyTable from "./Table";
+import Card from "./Card";
 import {
   faArrowRightLong,
   faHouse,
@@ -23,6 +24,12 @@ function Sidebar() {
   const navigate = useNavigate();
   const [close, setClose] = useState(false);
 
+  const handleClick = () => {
+    setClose(!close)
+  }
+
+  
+
   return (
     <div className="light-theme">
       <nav className={close ? "sidebar close" : "sidebar"}>
@@ -34,16 +41,16 @@ function Sidebar() {
               <span className="name">Planerva</span>
             </div>
           </div>
-
-          <i className=" toggle" onClick={() =>   setClose(true)}>
+          {/* onClick={() =>  setClose(true)} */}
+          <i className="toggle" onClick={handleClick}>
             <FontAwesomeIcon icon={faArrowRightLong} />
           </i>
         </header>
 
         <div className="menu-bar">
           <div className="menu">
-            <li className="box_open" onClick={() => setClose(false)}>
-              <i className="bx bx-search icon"></i>
+            <li className="box_open">
+             
             </li>
 
             <ul className="menu-links">
@@ -113,6 +120,9 @@ function Sidebar() {
       </section>
       <section className="home2">
         <MyTable></MyTable>
+      </section>
+      <section className="home3" >
+      <Card></Card>
       </section>
     </div>
   );
