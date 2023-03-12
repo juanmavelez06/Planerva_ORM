@@ -13,4 +13,8 @@ const BlogModel =  db.define('budgetpersonals',{
     Account: {type:DataTypes.NUMBER},
 }) 
 
+const Blog = db.define('budgetpersonals', {
+    
+})
+
 export default BlogModel;

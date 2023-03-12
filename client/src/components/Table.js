@@ -73,3 +73,27 @@ function MyTable() {
 }
 
 export default MyTable;
+
+
+// Editar y eliminar elementos
+
+// Usando .map recorri la data y los guarde en "blog" usando esta misma para tranajr con los Id
+
+// {blogs.map((blog) => ({blog.id})
+
+
+{/* <li>
+<Link to={`/edit/${blog.id}`} className="btn btn-info">
+  <FontAwesomeIcon
+    icon={faPenToSquare}
+  ></FontAwesomeIcon>
+  Editar
+</Link>
+</li> */}
+
+{/* <li>
+                        <button onClick={() => deleteBlog(blog.id)}>
+                          <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                          Eliminar
+                        </button>
+                      </li> */}

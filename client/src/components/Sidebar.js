@@ -15,9 +15,8 @@ import {
   faUser,
   faChartLine,
   faRightFromBracket,
-  faSun,
-  faMoon,
-  
+  faFileImport,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 
 function Sidebar() {
@@ -120,6 +119,21 @@ function Sidebar() {
       </section>
       <section className="home2">
         <MyTable></MyTable>
+        <div className="btn_table">
+        <Link to={"create"} className="btn_añadir">
+          <span>Añadir</span><FontAwesomeIcon icon={faPlus} />
+        </Link>
+
+        <Link to={"create"} className="btn_descargarcvs">
+          <span>Descargar cvs</span>
+          <FontAwesomeIcon icon={faFileImport} />
+        </Link>
+
+        <input
+          type="file"
+          className=""
+        ></input>
+      </div>
       </section>
       <section className="home3" >
       <Card></Card>
