@@ -18,6 +18,7 @@ import {
   faFileImport,
   faPlus
 } from "@fortawesome/free-solid-svg-icons";
+import FileUpload from "./CSV_XLSX";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -129,11 +130,9 @@ function Sidebar() {
           <FontAwesomeIcon icon={faFileImport} />
         </Link>
 
-        <input
-          type="file"
-          className=""
-        ></input>
+        <FileUpload></FileUpload>
       </div>
+      
       </section>
       <section className="home3" >
       <Card></Card>

@@ -4,6 +4,7 @@ import { className, html } from "gridjs";
 import axios from "axios";
 import "gridjs/dist/theme/mermaid.css";
 import { Link } from "react-router-dom";
+import {CSVLink} from 'react-csv'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGear,
@@ -68,6 +69,10 @@ function MyTable() {
           limit: 5,
         }}
       />
+
+      {/* En pruebas */}
+      <CSVLink data={blogs} filename="DatosPersona"> Exportar a CSV</CSVLink>
+      
     </div>
   );
 }
