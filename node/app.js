@@ -15,13 +15,24 @@ try {
     console.log('Conexion exitosa con la base de datos')
 } catch (error) {
     console.log(`El error de conexion es: ${error}`)
-    //importante el uso de estas comillas = ``
+    
 }
+
+
+
+// Definir el punto final para recibir los datos
+app.post('/receptorDatos', (req, res) => {
+  const datos = req.body.datos;
+  console.log(datos);
+  // hacer algo con los datos recibidos
+  res.status(200).send('Datos recibidos correctamente');
+});
 
 app.get('/', (req,res)=> {
     res.send('Hola Mundo!')
 })
 
-app.listen(8000), () =>{
-    console.log('server UP running in http://localhost:8000/')
-} //Escuche en el puerto 8000
+
+app.listen(8000, () => {
+    console.log('Servidor en funcionamiento en http://localhost:8000/')
+  });
