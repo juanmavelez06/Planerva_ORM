@@ -1,42 +1,63 @@
-from flask import Flask, request, render_template, Response
-import requests
+import os
+from flask import Flask, redirect, render_template, request, Response, jsonify
 import pandas as pd
 import json
+import requests
 
-app = Flask(__name__, template_folder='templates', static_folder='static')
+app = Flask(__name__, template_folder="templates", static_folder="static")
+
+EXTENSIONES_PERMITIDAS = {'.csv', '.xlsx'}
+
+#variable para almacenar el diccionario/Json
+datosJson = {}
+
+# servidor de node
+url = 'http://localhost:3000/receptorDatos'
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def main():
+    return render_template("index.html")
 
-@app.route('/cargarCsv', methods=['POST'])
-def cargarArchivo():
-    #obtener el archivo
-    file = request.files['file']
-    #validar si el archivo si fue cargado
-    if not file:
-        return Response(json.dumps({"error": "no se cargó ningún archivo"}), status=400, mimetype='application/json')
-    #procesa el archivo y valida si es un csv
-    datos =  pd.read_csv(file)
+#validar las extensiones
+def extensionPermitida(filename):
+    _, ext = os.path.splitext(filename)
+    return ext.lower() in EXTENSIONES_PERMITIDAS
+
+def mensajeErrorArchivos(mensaje):
+    response = jsonify({"mensaje": mensaje})
+    response.status_code = 409
+    return response
+
+#ruta/función para recepcionar el archivo
+@app.route('/cargarCsv', methods=['POST', 'GET'])
+def recibir_archivo():
+    archivo = request.files['file']
+    global datosJson
+    if archivo and extensionPermitida(archivo.filename):
+        if archivo.filename.endswith('.csv'):
+            datos = pd.read_csv(archivo, encoding='ISO-8859-1')
+        elif archivo.filename.endswith('xlsx'):
+            datos = pd.read_excel(archivo)   
+        datosJson = {
+            "datos": datos.to_json()
+        }
+        return "Archivo cargado con éxito (:"
     
-    # TODO: CAMBIAR EL NOMBRE DE LAS VARIABLES
-    """Varaible datos1 de preuba, cuando @alejose me envíe el archivo empiezo a cambiar las variables por nombre reales más dicientes"""
-    datos1 = datos['dato'].mean()
-    #convertir los datos procesados en un diccionario (json) para enviarla
-    datosJson = {
-        'dato': datos1
-    }
-    
-    #enviar los datos procesados al ednpoint (api, microservicio, la monda que sea que esté haciendo/haga vargas)
-    urlVarguitas = 'https:localhost:3000/VarguitasDatos'
-    response = requests.post(urlVarguitas, Response(json.dumps({datosJson})))
-    #validación de que sea ok
-    if response.ok:
-        return "<p>Datos enviados con extio</p>"
+    ##Enviar el archivo al servidor de node
+    try:
+            headers = {'Content-type': 'application/json'}
+            response = requests.post(url, data=json.dumps(datosJson), headers=headers)
+            print(response)
+            if response.status_code == 200:
+                print("Datos enviados al servidor con éxito")
+            else:
+                print("No se pudo enviar los datos al servidor")
+    except ConnectionError as e:
+            print(f"error al enviar los datos {e}")
+            
+    ##Error si no coincide la extensión con las permitidas
     else:
-        return "Varguitas, no te pude enviar los datos, que sad :("
+        return mensajeErrorArchivos("Archivo no permitido :(, solo se pueden cargar archivos CSV y XLSX")
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-    
