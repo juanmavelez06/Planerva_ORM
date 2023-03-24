@@ -36,7 +36,7 @@ function Sidebar() {
         <header>
           <div className="image-text">
             <span className="image"></span>
-            <img src={Logo} classNameName="logo_sidebar" alt="Logo"></img>
+            <img src={Logo} className="logo_sidebar" alt="Logo"></img>
             <div className="text logo-text">
               <span className="name">Planerva</span>
             </div>

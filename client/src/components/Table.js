@@ -70,8 +70,8 @@ function MyTable() {
         }}
       />
 
-      {/* En pruebas */}
-      <CSVLink data={blogs} filename="DatosPersona"> Exportar a CSV</CSVLink>
+      {/* En pruebas
+      <CSVLink data={blogs} filename="DatosPersona"> Exportar a CSV</CSVLink> */}
       
     </div>
   );

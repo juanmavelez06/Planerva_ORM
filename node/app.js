@@ -21,7 +21,7 @@ try {
 
 
 // Definir el punto final para recibir los datos
-app.post('/receptorDatos', (req, res) => {
+app.post('/obtenerArchivo', (req, res) => {
   const datos = req.body.datos;
   console.log(datos);
   // hacer algo con los datos recibidos
@@ -34,5 +34,5 @@ app.get('/', (req,res)=> {
 
 
 app.listen(8000, () => {
-    console.log('Servidor en funcionamiento en http://localhost:8000/')
+    console.log('Servidor en funcionamiento http://localhost:8000/')
   });

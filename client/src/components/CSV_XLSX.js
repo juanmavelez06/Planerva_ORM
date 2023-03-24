@@ -13,7 +13,7 @@ const handleSubmit = (e) => {
     const formData = new FormData(); 
     // FormData me permite el envio de archivos en una solicitud HTTP que luego envio con fetch o axios 
     formData.append('file', file);
-    fetch('/', {
+    fetch('http://localhost:5000/obtenerArchivo', {
         method: 'POST',
         body: formData
     })
@@ -30,8 +30,8 @@ const handleSubmit = (e) => {
 };
 
 return(
-    <form onSubmit={handleSubmit} action="/prueba" method="POST" enctype="multipart/form-data">
-        <input type="file" onChange={handleFileUpload} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name='file' />
+    <form onSubmit={handleSubmit} action="/prueba" method="POST" encType="multipart/form-data">
+        <input type="file" onChange={handleFileUpload} name='file' />
         <br>
         </br>
         <button type="submit" >Subir Archivo😃</button>
