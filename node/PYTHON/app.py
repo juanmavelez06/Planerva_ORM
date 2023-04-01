@@ -1,63 +1,27 @@
-import os
-from flask import Flask, redirect, render_template, request, Response, jsonify
-import pandas as pd
-import json
+from flask import Flask, flash, render_template, redirect, Response, jsonify, request
+from flask_cors import CORS, cross_origin
 import requests
+import time
 
-app = Flask(__name__, template_folder="templates", static_folder="static")
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
-EXTENSIONES_PERMITIDAS = {'.csv', '.xlsx'}
+url = "http://localhost:5000/obtenerArchivo"
 
-#variable para almacenar el diccionario/Json
-datosJson = {}
 
-# servidor de node
-url = 'http://localhost:3000/receptorDatos'
-
-@app.route('/')
-def main():
-    return render_template("index.html")
-
-#validar las extensiones
-def extensionPermitida(filename):
-    _, ext = os.path.splitext(filename)
-    return ext.lower() in EXTENSIONES_PERMITIDAS
-
-def mensajeErrorArchivos(mensaje):
-    response = jsonify({"mensaje": mensaje})
-    response.status_code = 409
-    return response
-
-#ruta/función para recepcionar el archivo
-@app.route('/cargarCsv', methods=['POST', 'GET'])
-def recibir_archivo():
+@app.route('/obtenerArchivo', methods=['POST', 'GET'])
+@cross_origin(methods=['POST', 'GET'])
+def obtenerArchivo():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No se proporcionó'})
     archivo = request.files['file']
-    global datosJson
-    if archivo and extensionPermitida(archivo.filename):
-        if archivo.filename.endswith('.csv'):
-            datos = pd.read_csv(archivo, encoding='ISO-8859-1')
-        elif archivo.filename.endswith('xlsx'):
-            datos = pd.read_excel(archivo)   
-        datosJson = {
-            "datos": datos.to_json()
-        }
-        return "Archivo cargado con éxito (:"
-    
-    ##Enviar el archivo al servidor de node
-    try:
-            headers = {'Content-type': 'application/json'}
-            response = requests.post(url, data=json.dumps(datosJson), headers=headers)
-            print(response)
-            if response.status_code == 200:
-                print("Datos enviados al servidor con éxito")
-            else:
-                print("No se pudo enviar los datos al servidor")
-    except ConnectionError as e:
-            print(f"error al enviar los datos {e}")
-            
-    ##Error si no coincide la extensión con las permitidas
-    else:
-        return mensajeErrorArchivos("Archivo no permitido :(, solo se pueden cargar archivos CSV y XLSX")
+    if archivo.filename == '':
+        return jsonify({'error': 'El archivo no tiene nombre'})
+
+    archivo = {'file': request.files['file']}
+    respuesta = requests.post(url=url, files=archivo)
+    return jsonify({'message': 'Archivo recibido correctamente'}, respuesta)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

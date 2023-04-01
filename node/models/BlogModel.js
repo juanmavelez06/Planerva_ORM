@@ -11,10 +11,10 @@ const BlogModel =  db.define('budgetpersonals',{
     Position: {type:DataTypes.STRING},
     Classing: {type:DataTypes.STRING},
     Account: {type:DataTypes.NUMBER},
+    Refsalary:{type:DataTypes.NUMBER},
+    Incsalary:{type:DataTypes.NUMBER},
+    Auxtransport:{type:DataTypes.NUMBER},
+    Workersneeded:{type:DataTypes.STRING},
 }) 
-
-const Blog = db.define('budgetpersonals', {
-    
-})
 
 export default BlogModel;

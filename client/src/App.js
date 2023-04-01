@@ -10,7 +10,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      
         <Sidebar></Sidebar>
+
         <Routes>
           <Route path="/"></Route>
           <Route path="/create" element={<CompCreatePersonal/>}></Route>
