@@ -20,10 +20,8 @@ const handleSubmit = (e) => {
     .then(response => {
         if(response.ok) {
             console.log("Archivo cargado con éxito");
-            // Aquí podrías actualizar la UI de tu componente React si deseas
         } else {
             console.log("Error al cargar el archivo");
-            // Aquí podrías manejar un mensaje de error o actualizar la UI de tu componente React si deseas
         }
     })
     .catch(error => console.error(error));
