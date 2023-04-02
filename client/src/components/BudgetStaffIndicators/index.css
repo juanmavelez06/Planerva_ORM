@@ -1,0 +1,55 @@
+.staff-indicators-ctn .indicators-header-ctn {
+  display: flex;
+  justify-content: space-between;
+}
+.indicators-header-ctn .indicators-header h2 {
+  position: relative;
+  font-size: 4rem;
+  color: #00c67d;
+  margin: 0rem 0 1rem 0;
+  width: 100%;
+}
+.indicators-header-ctn .indicators-header h2::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 1rem;
+  position: absolute;
+  background-color: #006341;
+  left: 27rem;
+  top: 2rem;
+  border-radius: 0.5rem;
+}
+.indicators-header-ctn .indicators-header h3 {
+  position: relative;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #00c67d;
+  right: -6rem;
+  margin: 1rem 0;
+}
+.indicators-header-ctn .staff-filters {
+  margin-right: 4rem;
+}
+.indicators-header-ctn .staff-filters .filter {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #006341;
+  text-align: center;
+  border: 0;
+  padding: 1rem 2.5rem;
+}
+.indicators-header-ctn .staff-filters .areaSelector {
+  background-color: #00c67d;
+  color: #f6fbff;
+  border-radius: 0 0 0 1rem;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.3);
+}
+
+.charts-ctn {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  column-gap: 2rem;
+  row-gap: 2rem;
+  margin-top: 2rem;
+}

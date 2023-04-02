@@ -1,0 +1,39 @@
+.budget-card{
+    background-color: #3CC47C;
+    min-height: 100%;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
+}
+.budget-card-ctn{
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    padding: 2rem 2rem;
+}
+.card-icon-ctn svg{
+    color: #3CC47C;
+    font-size: 3.5rem;
+    padding: 1rem;
+    background-color: #FFFFFF;
+    border-radius: 1rem;
+}
+.budget-card .card-content-ctn{
+    text-align: center;
+    color: #fff;
+}
+.budget-card .card-content-ctn p{
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.7;
+}
+.budget-card .card-content-ctn span{
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+.card-content-ctn .data p{
+    font-size: 2rem;
+    font-weight: 700;
+}
+

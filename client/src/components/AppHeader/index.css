@@ -1,0 +1,49 @@
+.header-ctn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3rem 0 0 0;
+}
+.section-title h1{
+    font-size: 5rem;
+    color: #00C67D;
+    margin: 0rem 0 1rem 0;
+    width: 100%;
+}
+.section-title h1::after{
+    content: ""; display: block;
+    width: 2.5rem; height: 1rem;
+    position: absolute;
+    background-color: #006341;
+    left: 35rem;
+    top: 5.6rem;
+    border-radius: 0.5rem;
+}
+.section-title h1 span{
+    font-weight: bold;
+}
+.section-title h2{
+    position: relative;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #00C67D;
+    right: -6rem;
+    margin: 1rem 0;
+}
+
+/*Header*/
+.header-user{
+    display: flex;
+    align-items: center;
+    font-size: 4rem;
+}
+.header-user .ctn-user{
+    background-color: #00C67D;
+    border-radius: 100%;
+}
+.header-user .ctn-user div{ 
+    color:#E8F3F5;
+    line-height: 0;
+    font-size: 3rem;
+    padding: 1rem;
+}

@@ -1,0 +1,42 @@
+.triple-card-ctn{
+   background-color: #3CC47C;
+   padding: 2rem; 
+   border-radius: 2rem;
+   margin-top: 10rem;
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   text-align: center;
+}
+.triple-card-ctn .indicator{
+    padding: 2rem;
+    border-right: 2px solid #F6FBFF;
+}
+.triple-card-ctn .indicator:last-of-type{
+    border-right: 0;
+}
+.triple-card-ctn .indicator .indicator-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.triple-card-ctn .indicator .indicator-title svg{
+    font-size: 3rem;
+    color: #F6FBFF;
+    margin-left: 2rem;
+}
+.triple-card-ctn .indicator .indicator-title p{
+    font-weight: 700;
+    font-size: 2rem;
+    color: #F6FBFF;
+}
+.triple-card-ctn .indicator span{
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: #F6FBFF;
+}
+.triple-card-ctn .indicator .data p{
+    padding: 2rem 0;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #F6FBFF;
+}

@@ -1,0 +1,21 @@
+.app-footer{
+    text-align: center;
+    background-color: #E8F3F5;
+    padding: 6rem 0;
+}
+.app-footer h1{
+    font-size: 5rem;
+    color: #00C67D;
+    margin: 0rem 0 1rem 0;
+    width: 100%;
+}
+.app-footer h1 span{
+    font-weight: bold;
+}
+.app-footer .copy{
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-top: 3rem;
+    letter-spacing: 5px;
+    color: #006341;
+}

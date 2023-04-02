@@ -1,0 +1,32 @@
+.navBar{
+    background-color: #006341;
+    color: #E8F3F5;
+    height: 100%;
+    width: 15rem;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+}
+.ctn-navBar{
+    padding: 0 25%;
+}
+.ctn-logo h1{
+    margin: 4rem 0;
+    font-size: 3rem;
+}
+.ctn-navBar nav{
+    margin: 2rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+.ctn-navBar nav div{
+    margin: 1.5rem 0;
+    font-size: 4rem;
+    text-align: center;
+}
+.ctn-navBar nav a{
+    color: #E8F3F5;
+    margin: 1.5rem 0;
+    font-size: 4rem;
+    text-align: center;
+}
