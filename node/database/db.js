@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize"
 
  //Nombre de la base de datos, el usuario y la password
-const db = new Sequelize('planervamoduls' ,'root','', {
+const db = new Sequelize('planerva' ,'root','', {
     host:'localhost',
     dialect: 'mysql'
 })

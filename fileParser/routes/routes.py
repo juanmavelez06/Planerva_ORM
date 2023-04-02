@@ -46,10 +46,11 @@ def obtenerArchivo(nombreArchivo):
         if nombreArchivo.endswith('.csv'):
             with open(PATHFILE + nombreArchivo, encoding='utf-8') as f:
                 datos = csv.DictReader(f, delimiter=",")
-                archivoProcesado = [{"data": row} for row in datos]
+                for dato in datos:
+                    archivoProcesado = {"data": dato}
         elif nombreArchivo.endswith('.xlsx'):
             datos = pd.read_excel(PATHFILE + nombreArchivo)
-            archivoProcesado = [{"data": row} for index, row in datos.iterrows()]
+            archivoProcesado = datos.to_dict(orient='records')
         else:
             return responseErrorJson("tipo de archivo no permitido", 409)
         if archivo:
