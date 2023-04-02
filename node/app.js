@@ -33,6 +33,6 @@ app.get('/', (req,res)=> {
 })
 
 
-app.listen(8000, () => {
-    console.log('Servidor en funcionamiento http://localhost:8000/')
+app.listen(3000, () => {
+    console.log('Servidor en funcionamiento http://localhost:3000/')
   });
