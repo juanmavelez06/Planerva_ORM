@@ -1,7 +1,8 @@
 import { Sequelize } from "sequelize"
+import dbkeys from "./keys.js";
 
 //Nombre de la base de datos, el usuario y la password
-const db = new Sequelize('planerva' ,'root','Nativedatabase19', {
+const db = new Sequelize(dbkeys.database , dbkeys.user , dbkeys.password, {
     host:'localhost',
     dialect: 'mysql'
 })
