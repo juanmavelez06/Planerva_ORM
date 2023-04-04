@@ -13,7 +13,10 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.json());
+
+//! Limites de Datos para la carga de archivos desde Servidor
+app.use(bodyParser.json({limit: '100mb'}));
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
 
 //Routes
 app.use("/budgets", blogRoutes);

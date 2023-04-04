@@ -25,23 +25,23 @@ router.post("/recibirDatos", async (req, res) => {
         // console.log(e.Apellido)
         // console.log(e.Edad)
 
-        const area = e.Area
-        const position = e.Position
-        const classing = e.Classing
-        const account = e.Account
-        const refsalary = e.Refsalary
-        const incsalary = e.Incsalary
-        const auxtransport = e.Auxtransport
-        const workersneeded = e.Workersneeded
+        const area = e.area
+        const position = e.position
+        const classing = e.classing
+        const account = e.account
+        const refsalary = e.refsalary
+        const incsalary = e.incsalary
+        const auxtransport = e.auxtransport
+        const workersneeded = e.workersneeded
 
-        console.log(e.Area)
-        console.log(e.Position)
-        console.log(e.Classing)
-        console.log(e.Account)
-        console.log(e.Refsalary)
-        console.log(e.Incsalary)
-        console.log(e.Auxtransport)
-        console.log(e.Workersneeded)
+        console.log(e.area)
+        console.log(e.position)
+        console.log(e.classing)
+        console.log(e.account)
+        console.log(e.refsalary)
+        console.log(e.incsalary)
+        console.log(e.auxtransport)
+        console.log(e.workersneeded)
 
         // ! Crea una instancia del modelo Budget y guarda los datos en la base de datos mysql
         // ! Dejo documentado las secciones de codigo para pruebas y habilito la conexion real con la base de datos budgetpersonal
@@ -52,16 +52,16 @@ router.post("/recibirDatos", async (req, res) => {
         //   Edad:edad
         // })
 
-        Budget.create({
-          Area:area,
-          Position:position,
-          Classing:classing,
-          Account:account,
-          Refsalary:refsalary,
-          Incsalary:incsalary,
-          Auxtransport:auxtransport,
-          workersneeded:workersneeded,
-        })
+        // Budget.create({
+        //   area:area,
+        //   position:position,
+        //   classing:classing,
+        //   account:account,
+        //   refsalary:refsalary,
+        //   incsalary:incsalary,
+        //   auxtransport:auxtransport,
+        //   workersneeded:workersneeded,
+        // })
 
         dbconection.authenticate()
 

@@ -8,15 +8,15 @@ import { DataTypes } from "sequelize";
 //Necesita el nombre de la tabla y sus atributos 
 //! Mapeo los tipos de atributos que usare en mi conexion con la base de Datos; En este caso budgetpersonal 
 
-const BudgetModel =  db.define('archivos',{
-    Area: {type:DataTypes.STRING},
-    Position: {type:DataTypes.STRING},
-    Classing: {type:DataTypes.STRING},
-    Account: {type:DataTypes.NUMBER},
-    Refsalary:{type:DataTypes.NUMBER},
-    Incsalary:{type:DataTypes.NUMBER},
-    Auxtransport:{type:DataTypes.NUMBER},
-    Workersneeded:{type:DataTypes.STRING},
+const BudgetModel =  db.define('budgetpersonal',{
+    area: {type:DataTypes.STRING},
+    position: {type:DataTypes.STRING},
+    classing: {type:DataTypes.STRING},
+    account: {type:DataTypes.NUMBER},
+    refsalary:{type:DataTypes.NUMBER},
+    incsalary:{type:DataTypes.NUMBER},
+    auxtransport:{type:DataTypes.NUMBER},
+    workersneeded:{type:DataTypes.STRING},
 
     // Nombre:{type:DataTypes.STRING},
     // Apellido:{type:DataTypes.STRING},
