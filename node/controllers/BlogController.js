@@ -1,12 +1,12 @@
-import BlogModel from "../models/BlogModel.js";
+import BudgetModel from '../models/BudgetModel.js'
 
 //Metodos para el Crud
 
 //Mostrar todos los registros
 export const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await BlogModel.findAll(); //findAll me trae todo
-    res.json(blogs); //Respuesta en Jason y como devolucion recibiremos los blogs
+    const budgets = await BudgetModel.findAll(); //findAll me trae todo
+    res.json(budgets); //Respuesta en Json y como devolucion recibiremos los datos
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -15,10 +15,10 @@ export const getAllBlogs = async (req, res) => {
 //Mostrar un registro
 export const getBlog = async (req, res) => {
   try {
-    const blog = await BlogModel.findAll({
+    const budget = await BudgetModel.findAll({
       where: { id: req.params.id },
     });
-    res.json(blog[0]); 
+    res.json(budget[0]); 
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -27,7 +27,7 @@ export const getBlog = async (req, res) => {
 //Crear un Registro
 export const createBlog = async (req, res) => {
   try {
-    await BlogModel.create(req.body); //Capturamos todo el cuerpo de datos.
+    await BudgetModel.create(req.body); //Capturamos todo el cuerpo de datos.
     res.json({
       message: "¡Registro creado correctamente!", //Formato clave - valor
     });
@@ -39,7 +39,7 @@ export const createBlog = async (req, res) => {
 //Actualizar un registro
 export const updateBlog = async (req, res) => {
   try {
-    await BlogModel.update(req.body, {
+    await BudgetModel.update(req.body, {
       where: { id: req.params.id },
       //Al actualizar debemos especificar que rehistro actualizar por lo que usamos la clausula where
     });
@@ -54,7 +54,7 @@ export const updateBlog = async (req, res) => {
 //Eliminar un registro
 export const deleteBlog = async (req, res) => {
   try {
-    await BlogModel.destroy({
+    await BudgetModel.destroy({
       where: { id: req.params.id },
     });
     res.json({

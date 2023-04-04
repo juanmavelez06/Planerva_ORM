@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //Routes
-app.use("/blogs", blogRoutes);
+app.use("/budgets", blogRoutes);
 app.use(microservice); // !Rutas del microservicio
 
 //Initialize Database

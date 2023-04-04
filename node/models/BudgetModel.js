@@ -6,7 +6,9 @@ import db from "../database/db.js";
 import { DataTypes } from "sequelize";
 
 //Necesita el nombre de la tabla y sus atributos 
-const BlogModel =  db.define('budgetpersonal',{
+//! Mapeo los tipos de atributos que usare en mi conexion con la base de Datos; En este caso budgetpersonal 
+
+const BudgetModel =  db.define('archivos',{
     Area: {type:DataTypes.STRING},
     Position: {type:DataTypes.STRING},
     Classing: {type:DataTypes.STRING},
@@ -15,6 +17,10 @@ const BlogModel =  db.define('budgetpersonal',{
     Incsalary:{type:DataTypes.NUMBER},
     Auxtransport:{type:DataTypes.NUMBER},
     Workersneeded:{type:DataTypes.STRING},
+
+    // Nombre:{type:DataTypes.STRING},
+    // Apellido:{type:DataTypes.STRING},
+    // Edad:{type:DataTypes.STRING},
 }) 
 
-export default BlogModel;
+export default BudgetModel;
