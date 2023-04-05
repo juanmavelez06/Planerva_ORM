@@ -71,7 +71,7 @@ function BudgetStaff() {
   return (
     <React.Fragment>
       {addingData ? (
-        <BudgetAddStaff />
+        <BudgetAddStaff setAddingData={setAddingData} />
       ) : (
         <div className="budgetStaff section">
           <BudgetStaffTable

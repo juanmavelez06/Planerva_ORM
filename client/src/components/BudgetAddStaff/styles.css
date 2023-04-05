@@ -99,7 +99,7 @@
 }
 .budget-summary-ctn .submit-btns button{
     padding: 1rem 2rem;
-    
+    cursor: pointer;
 }
 .budget-summary-ctn button.cancel-btn{
     color: #006341;
