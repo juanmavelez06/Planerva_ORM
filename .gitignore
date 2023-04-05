@@ -25,3 +25,6 @@ dist-ssr
 
 #Keys
 keys.js
+
+#microservice
+__pycache__
