@@ -6,19 +6,39 @@ import BudgetAddStaff from "../BudgetAddStaff/BudgetAddStaff";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { FaMoneyBillWave } from "react-icons/fa";
 import AppReportBtn from "../AppReportBtn/AppReportBtn";
-import dataSource from "../../data.example";
+import { getStaffRequest } from "../../api/api.js";
+import dataTry from "../../data.example";
 import "./index.css";
 
 function BudgetStaff() {
-  const [data, setData] = useState(dataSource);
+  const [data, setData] = useState(dataTry);
   const [staffMonthly, setStaffMonthly] = useState(0);
   const [mainAccount, setMainAccount] = useState(0);
   const [budgetIncSalary, setBudgetIncSalary] = useState(0);
   const [addingData, setAddingData] = useState(false);
 
   useEffect(() => {
+    getData();
     updateBudgetIndicators(data);
   }, []);
+
+  let getData = async () => {
+    try {
+      let downloadData = await getStaffRequest();
+      let downloadedData = await downloadData.data;
+
+      downloadedData.forEach((e) => {
+        if (typeof e.workersneeded === "string") {
+          e.workersneeded = JSON.parse(e.workersneeded);
+        } else {
+          e.workersneeded = e.workersneeded;
+        }
+      });
+      setData(downloadedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   let updateBudgetIndicators = (dataInput) => {
     let staffNeededMonthly = 0;
@@ -68,14 +88,21 @@ function BudgetStaff() {
     setStaffMonthly(value);
   };
 
+  let submitData = () => {
+    getData();
+    setAddingData(false);
+  };
+
   return (
     <React.Fragment>
+      {/* {console.log( data1)} */}
       {addingData ? (
-        <BudgetAddStaff setAddingData={setAddingData} />
+        <BudgetAddStaff submitData={submitData} setAddingData={setAddingData} />
       ) : (
         <div className="budgetStaff section">
           <BudgetStaffTable
             budgetData={data}
+            getData={getData}
             setAddingData={setAddingData}
           ></BudgetStaffTable>
           <div className="staff-cards-ctn">

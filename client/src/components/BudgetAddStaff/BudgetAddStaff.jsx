@@ -27,7 +27,7 @@ let model = {
   },
 };
 
-function BudgetAddStaff({ setAddingData }) {
+function BudgetAddStaff({ setAddingData, submitData }) {
   const [dataModel, setDataModel] = useState(model);
   const [areaStaffForm, setAreaStaffForm] = useState("");
   const [positionStaffForm, setPositionStaffForm] = useState("");
@@ -52,7 +52,7 @@ function BudgetAddStaff({ setAddingData }) {
         writable: true,
       });
     }
-    
+
     setDataModel(dataValues);
     setPositionStaffForm(dataValues.position);
     setAreaStaffForm(dataValues.area);
@@ -67,16 +67,20 @@ function BudgetAddStaff({ setAddingData }) {
     let result = {};
     let staffNeeded = dataModel.workersneeded;
     let entry = val;
-    
-    Object.defineProperty(staffNeeded, entry.name, {
-      value: entry.value,
-      enumerable: true,
-      writable: true,
-    });
 
-    result.name = "workersneeded";
-    result.value = staffNeeded;
-    return result;
+    try {
+      Object.defineProperty(staffNeeded, entry.name, {
+        value: Number(entry.value),
+        enumerable: true,
+        writable: true,
+      });
+
+      result.name = "workersneeded";
+      result.value = staffNeeded;
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -101,7 +105,7 @@ function BudgetAddStaff({ setAddingData }) {
                 type="number"
                 name="refsalary"
                 placeholder="Referencia Salarial"
-                value={refsalaryStaffForm}
+                value={Number(refsalaryStaffForm)}
               />
               <input
                 onInput={(e) => {
@@ -119,7 +123,7 @@ function BudgetAddStaff({ setAddingData }) {
                 type="number"
                 name="incsalary"
                 placeholder="Incremento Salarial"
-                value={incsalaryStaffForm}
+                value={Number(incsalaryStaffForm)}
               />
               <input
                 onInput={(e) => {
@@ -137,7 +141,7 @@ function BudgetAddStaff({ setAddingData }) {
                 type="number"
                 name="auxtransport"
                 placeholder="Auxilio de Transporte"
-                value={auxTransStaffForm}
+                value={Number(auxTransStaffForm)}
               />
             </div>
 
@@ -336,11 +340,29 @@ function BudgetAddStaff({ setAddingData }) {
             >
               Cancelar
             </button>
-            <button onClick={(e) => {
-              let postStaff = dataModel;
-              postStaff.workersneeded = JSON.stringify(postStaff.workersneeded);
-              addPositionRequest(postStaff)
-              }} className="save-btn">
+            <button
+              onClick={async (e) => {
+                try {
+                  const postStaff = {
+                    area: dataModel.area,
+                    position: dataModel.position,
+                    classing: dataModel.classing,
+                    account:  1232, //Number(dataModel.account)
+                    refsalary: Number(dataModel.refsalary),
+                    incsalary: Number(dataModel.incsalary),
+                    auxtransport: Number(dataModel.auxtransport),
+                    workersneeded: JSON.stringify(dataModel.workersneeded),
+                  };
+
+                  await addPositionRequest(postStaff);
+                  submitData()
+                  ;
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+              className="save-btn"
+            >
               Guardar
             </button>
           </div>

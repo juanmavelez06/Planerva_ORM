@@ -3,8 +3,9 @@ import "./index.css";
 import { MdEdit } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { deletePositionRequest } from "../../api/api";
 
-function BudgetStaffTable({ budgetData, setAddingData}) {
+function BudgetStaffTable({ budgetData, setAddingData, getData }) {
   return (
     <div className="staff-table-ctn">
       <div className="table-titles">
@@ -17,20 +18,32 @@ function BudgetStaffTable({ budgetData, setAddingData}) {
         </div>
       </div>
       <div className="table-values">
-        {budgetData.map((m) => {
-          return (
-            <div key={m.id} className="staff-entry">
-              <p>{m.id}</p>
-              <p> {m.area} </p>
-              <p>{m.position}</p>
-              <p className="text-center">{m.classing}</p>
-              <p className="text-center"> {m.account} </p>
-              <a href="" className="settings">
-                <MdEdit data-id={m.id} />
-              </a>
-            </div>
-          );
-        })}
+        {budgetData.length > 0 ? (
+          budgetData.map((m) => {
+            return (
+              <div key={m.id} className="staff-entry">
+                <p>{m.id}</p>
+                <p> {m.area} </p>
+                <p>{m.position}</p>
+                <p className="text-center">{m.classing}</p>
+                <p className="text-center"> {m.account} </p>
+                <a
+                  href=""
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await deletePositionRequest(m.id);
+                    await getData()
+                  }}
+                  className="settings"
+                >
+                  <MdEdit data-id={m.id} />
+                </a>
+              </div>
+            );
+          })
+        ) : (
+          <p>Añade Personal</p>
+        )}
       </div>
       <div className="table-footer">
         <div className="footer-btn add-staff">

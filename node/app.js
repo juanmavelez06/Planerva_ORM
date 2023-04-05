@@ -19,7 +19,7 @@ app.use(bodyParser.json({limit: '13mb'}));
 app.use(bodyParser.urlencoded({limit: '13mb', extended: true}));
 
 //Routes
-app.use("/budgets", blogRoutes);
+app.use("/budget", blogRoutes);
 app.use(microservice); // !Rutas del microservicio
 
 //Initialize Database
