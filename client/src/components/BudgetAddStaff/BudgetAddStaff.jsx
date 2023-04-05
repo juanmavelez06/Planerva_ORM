@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { addPositionRequest } from "../../api/api.js";
 import "./styles.css";
 
 //Data Model
@@ -34,7 +35,7 @@ function BudgetAddStaff({ setAddingData }) {
   const [refsalaryStaffForm, setRefSalaryStaffForm] = useState(0);
   const [incsalaryStaffForm, setIncSalaryStaffForm] = useState(0);
   const [auxTransStaffForm, setAuxTransStaffForm] = useState(0);
-  const [staffNeededForm, setStaffNeededForm] = useState({});
+  const [staffNeededForm, setStaffNeededForm] = useState("");
 
   useEffect(() => {
     updateData();
@@ -51,7 +52,7 @@ function BudgetAddStaff({ setAddingData }) {
         writable: true,
       });
     }
-
+    
     setDataModel(dataValues);
     setPositionStaffForm(dataValues.position);
     setAreaStaffForm(dataValues.area);
@@ -66,7 +67,7 @@ function BudgetAddStaff({ setAddingData }) {
     let result = {};
     let staffNeeded = dataModel.workersneeded;
     let entry = val;
-
+    
     Object.defineProperty(staffNeeded, entry.name, {
       value: entry.value,
       enumerable: true,
@@ -335,7 +336,11 @@ function BudgetAddStaff({ setAddingData }) {
             >
               Cancelar
             </button>
-            <button onClick={(e) => {console.log(dataModel)}} className="save-btn">
+            <button onClick={(e) => {
+              let postStaff = dataModel;
+              postStaff.workersneeded = JSON.stringify(postStaff.workersneeded);
+              addPositionRequest(postStaff)
+              }} className="save-btn">
               Guardar
             </button>
           </div>
