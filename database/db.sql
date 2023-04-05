@@ -3,7 +3,7 @@ CREATE DATABASE planerva;
 -- Budget
 
 -- Personal
-CREATE TABLE budgetpersonal (
+CREATE TABLE budgetpersonals (
     id INT(11) NOT NULL AUTO_INCREMENT,
     area VARCHAR(50) NOT NULL,
     position VARCHAR(50) NOT NULL,
@@ -13,6 +13,8 @@ CREATE TABLE budgetpersonal (
     incsalary INT(10) NOT NULL,
     auxtransport INT(50) NOT NULL,
     workersneeded VARCHAR(255) NOT NULL,
+    createdAt datetime NOT NULL,
+    updatedAt datetime NOT NULL,
     PRIMARY KEY(id)
 );
 

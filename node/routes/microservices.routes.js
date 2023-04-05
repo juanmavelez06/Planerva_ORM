@@ -52,16 +52,16 @@ router.post("/recibirDatos", async (req, res) => {
         //   Edad:edad
         // })
 
-        // Budget.create({
-        //   area:area,
-        //   position:position,
-        //   classing:classing,
-        //   account:account,
-        //   refsalary:refsalary,
-        //   incsalary:incsalary,
-        //   auxtransport:auxtransport,
-        //   workersneeded:workersneeded,
-        // })
+        Budget.create({
+          area:area,
+          position:position,
+          classing:classing,
+          account:account,
+          refsalary:refsalary,
+          incsalary:incsalary,
+          auxtransport:auxtransport,
+          workersneeded:workersneeded,
+        })
 
         dbconection.authenticate()
 
