@@ -4,7 +4,7 @@ import { MdEdit } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
-function BudgetStaffTable({ budgetData }) {
+function BudgetStaffTable({ budgetData, setAddingData}) {
   return (
     <div className="staff-table-ctn">
       <div className="table-titles">
@@ -34,13 +34,20 @@ function BudgetStaffTable({ budgetData }) {
       </div>
       <div className="table-footer">
         <div className="footer-btn add-staff">
-          <h4>Añadir Personal +</h4>
+          <a
+            onClick={(e) => {
+              e.preventDefault;
+              setAddingData(true);
+            }}
+          >
+            Añadir Personal +
+          </a>
         </div>
         <div className="footer-btn download-staff">
-          <h4>Descargar CSV</h4> <BsCloudDownload />
+          <a>Descargar CSV</a> <BsCloudDownload />
         </div>
         <div className="footer-btn upload-staff">
-          <h4>Subir CSV</h4> <AiOutlineCloudUpload />
+          <a>Subir CSV</a> <AiOutlineCloudUpload />
         </div>
       </div>
     </div>

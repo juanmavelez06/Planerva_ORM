@@ -8,6 +8,7 @@
 .app-ctn{
     width: 85%;
     margin: 0 auto;
+    min-height: 100%;
 }
 .section{
     padding: 6rem 0;

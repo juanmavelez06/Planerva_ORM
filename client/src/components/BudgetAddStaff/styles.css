@@ -1,0 +1,115 @@
+.budget-add-ctn{
+    display: grid;
+    grid-template-columns: 60% 35%;
+    column-gap: 8rem;
+    margin-top: 2rem;
+}
+.budget-add-ctn .add-staff-form-ctn{
+    background-color: #fff;
+    color: #006341;
+    padding: 4rem;
+    border-radius: 1.5rem;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.2);
+}
+.add-staff-form-ctn .add-staff-form .staff-info-section{
+    display: grid;
+    grid-template-columns: 45% 45%;
+    column-gap: 4rem;
+    row-gap: 2rem;
+    margin: 2rem 0 4rem 0;
+}
+.add-staff-form .staff-info-section input{
+    color: #006341;
+    border: 0;
+    padding-bottom: 5px;
+    border-bottom: 1.8px solid #006341;
+    font-weight: 400;
+    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.add-staff-form .staff-info-section input::placeholder{
+    color: #006341;
+}
+
+.add-staff-form .staff-needed-section h3{
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 5rem;
+}
+.add-staff-form .staff-needed-section .staff-needed-inputs{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+.staff-needed-section .staff-needed-inputs div{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 90%;
+}
+
+.staff-needed-section .staff-needed-inputs label{
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #006341;
+    padding-bottom: 1rem;
+}
+.staff-needed-section .staff-needed-inputs input{
+    border-radius: 0.5rem;
+    height: 3rem;
+    width: 100%;
+    border: 0;
+    font-size: 2rem;
+    color: #006341;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.2);
+}
+.budget-add-ctn .budget-summary-ctn{
+    background-color: #006341;  
+    border-radius: 1.5rem;
+    padding: 2rem 4rem;
+    color: #00C67D; 
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.budget-add-ctn .budget-summary-ctn h3{
+    text-align: center;
+    font-size: 2.5rem;
+    color: #fff;
+}
+.budget-add-ctn .budget-summary-ctn .staff-area-content{
+    border-bottom: 1px solid #fff;  
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+.budget-summary-ctn p{
+    padding-bottom: 1rem;
+}
+.budget-summary-ctn p span{
+    color: #fff;
+}
+.budget-summary-ctn .monthly-dropdown-ctn{
+    margin: 2rem 0;
+    background-color: #fff;
+}
+.budget-summary-ctn .submit-btns{
+    display: flex;
+    justify-content: center;
+}
+.budget-summary-ctn .submit-btns button{
+    padding: 1rem 2rem;
+    
+}
+.budget-summary-ctn button.cancel-btn{
+    color: #006341;
+    background-color: #fff;
+    font-weight: 600;
+    border: 0;
+}
+.budget-summary-ctn button.save-btn{
+    color: #fff;
+    background-color: #00C67D;
+    font-weight: 600;
+    border: 0;
+}

@@ -7,7 +7,7 @@ const data = [
         "account": 5112,
         "refsalary": 1200000,
         "incsalary": 12,
-        "auxtransport": 10,
+        "auxtransport": 100000,
         "workersneeded": 
         {
             "January": 2,

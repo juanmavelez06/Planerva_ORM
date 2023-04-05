@@ -13,6 +13,8 @@ CREATE TABLE budgetpersonal (
     incsalary INT(10) NOT NULL,
     auxtransport INT(50) NOT NULL,
     workersneeded VARCHAR(255) NOT NULL,
+    createdAt datetime NOT NULL,
+    updatedAt datetime NOT NULL,
     PRIMARY KEY(id)
 );
 

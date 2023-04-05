@@ -49,8 +49,10 @@
   justify-content: center;
   align-items: center;
 }
-.table-footer .footer-btn h4 {
+.table-footer .footer-btn a{
   font-weight: 700;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 .table-footer .footer-btn svg {
   font-size: 2rem;

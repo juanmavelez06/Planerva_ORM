@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BudgetStaffTable from "../BudgetStaffTable/BudgetStaffTable";
 import BudgetCard from "../BudgetCard/BudgetCard";
 import BudgetStaffIndicators from "../BudgetStaffIndicators/BudgetStaffIndicators";
+import BudgetAddStaff from "../BudgetAddStaff/BudgetAddStaff";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { FaMoneyBillWave } from "react-icons/fa";
 import AppReportBtn from "../AppReportBtn/AppReportBtn";
@@ -13,6 +14,7 @@ function BudgetStaff() {
   const [staffMonthly, setStaffMonthly] = useState(0);
   const [mainAccount, setMainAccount] = useState(0);
   const [budgetIncSalary, setBudgetIncSalary] = useState(0);
+  const [addingData, setAddingData] = useState(false);
 
   useEffect(() => {
     updateBudgetIndicators(data);
@@ -67,33 +69,42 @@ function BudgetStaff() {
   };
 
   return (
-    <div className="budgetStaff section">
-      <BudgetStaffTable budgetData={data}></BudgetStaffTable>
-      <div className="staff-cards-ctn">
-        <BudgetCard
-          Icon={AiOutlineUserSwitch}
-          title={"Personal Necesitado"}
-          legend={"Promedio"}
-          data={staffMonthly}
-        />
-        <BudgetCard
-          Icon={FaMoneyBillWave}
-          title={"Cuenta Contable"}
-          legend={"Promedio"}
-          data={mainAccount}
-        />
-        <BudgetCard
-          Icon={AiOutlineUserSwitch}
-          title={"Incremento Salarial"}
-          data={`${budgetIncSalary} %`}
-        />
-      </div>
+    <React.Fragment>
+      {addingData ? (
+        <BudgetAddStaff />
+      ) : (
+        <div className="budgetStaff section">
+          <BudgetStaffTable
+            budgetData={data}
+            setAddingData={setAddingData}
+          ></BudgetStaffTable>
+          <div className="staff-cards-ctn">
+            <BudgetCard
+              Icon={AiOutlineUserSwitch}
+              title={"Personal Necesitado"}
+              legend={"Promedio"}
+              data={staffMonthly}
+            />
+            <BudgetCard
+              Icon={FaMoneyBillWave}
+              title={"Cuenta Contable"}
+              legend={"Promedio"}
+              data={mainAccount}
+            />
+            <BudgetCard
+              Icon={AiOutlineUserSwitch}
+              title={"Incremento Salarial"}
+              data={`${budgetIncSalary} %`}
+            />
+          </div>
 
-      <div className="staff-indicators section">
-        <BudgetStaffIndicators data={data} setData={setData}/>
-      </div>
-      <AppReportBtn />
-    </div>
+          <div className="staff-indicators section">
+            <BudgetStaffIndicators data={data} setData={setData} />
+          </div>
+          <AppReportBtn />
+        </div>
+      )}
+    </React.Fragment>
   );
 }
 

@@ -6,6 +6,12 @@ import BudgetTripleCard from "../BudgetTripleCard/BudgetTripleCard";
 import "./index.css";
 
 function BudgetStaffIndicators({ data }) {
+  //State Control
+
+  useEffect(() => {
+    
+  }, []);
+
   //Get Staff Needed Data
   const getStaffChartData = (dataParsed) => {
     let result = {};
@@ -42,11 +48,11 @@ function BudgetStaffIndicators({ data }) {
     result.label = "Personal";
     result.labels = Object.keys(base);
     result.data = Object.values(base);
-    console.log(result);
     return(result);
   };
-  //Get Staff Cost per Month
-  const getCostChartData = (dataParsed) => {
+
+  //Get Staff Cost
+  const getCostData = (dataParsed) => {
     let result = {};
     let base = {
       January: 0,
@@ -63,6 +69,7 @@ function BudgetStaffIndicators({ data }) {
       December: 0,
     };
 
+    // * Get Staff Cost Monthly
     dataParsed.forEach((element) => {
       base.January += element.workersneeded.January * element.refsalary;
       base.February += element.workersneeded.February * element.refsalary;
@@ -75,13 +82,26 @@ function BudgetStaffIndicators({ data }) {
       base.September += element.workersneeded.September * element.refsalary;
       base.October += element.workersneeded.October * element.refsalary;
       base.November += element.workersneeded.November * element.refsalary;
-      base.December += element.workersneeded.December * element.refsalary;
+      base.December += element.workersneeded.December * element.refsalary;  
     });
+
+    //* Base Values
+    let parsedBaseValues = Object.values(base);
+
+    // * Total Salary Cost Monthly
+    let totalSalaryCost = parsedBaseValues.reduce((a, b) => {
+      return a + b;
+    }, 0);
+
+    // * Average Salary Cost Monthly
+    let avgSalaryCostMonthly = totalSalaryCost / parsedBaseValues.length;
+
 
     result.label = "Costo Salario Mensual";
     result.labels = Object.keys(base);
-    result.data = Object.values(base);
-    console.log(result);
+    result.data = parsedBaseValues;
+    result.totalSalaryCost = totalSalaryCost.toLocaleString();
+    result.avgSalaryCostMonthly = avgSalaryCostMonthly.toLocaleString();
     return(result);
   };
 
@@ -121,10 +141,8 @@ function BudgetStaffIndicators({ data }) {
     result.label = "Incremento Salario";
     result.labels = Object.keys(base);
     result.data = Object.values(base);
-    console.log(result);
     return(result);
   };
-
 
   //Get Transport Aux Cost per Month
   const getCostTransportData = (dataParsed) => {
@@ -159,10 +177,18 @@ function BudgetStaffIndicators({ data }) {
       base.December += element.workersneeded.December * element.auxtransport;
     });
 
+    //* Base Values
+    let parsedBaseValues = Object.values(base);
+
+    // * Total Cost Aux Transport (Yearly)
+    let totalTransAuxCost = parsedBaseValues.reduce((a, b) => {
+      return a + b;
+    }, 0);
+
     result.label = "Costo Auxilio de Transporte Mensual";
     result.labels = Object.keys(base);
-    result.data = Object.values(base);
-    // console.log(result)
+    result.data = parsedBaseValues;
+    result.totalTransAuxCost = totalTransAuxCost.toLocaleString(); 
     return(result);
   };
 
@@ -189,7 +215,7 @@ function BudgetStaffIndicators({ data }) {
         />
         <BudgetLineChart 
           title={"Gasto Salario"} 
-          data={getCostChartData(data)} 
+          data={getCostData(data)} 
         />
         <BudgetLineChart
           title={"Incremento Salario"}
@@ -200,40 +226,41 @@ function BudgetStaffIndicators({ data }) {
           data={getCostTransportData(data)}
         />
       </div>
+
       <BudgetTripleCard>
         <div className="indicator">
           <div className="indicator-title">
-            <p>Gasto Salario </p> <BiLineChart />
+            <p>Costo Salario Mensual</p> <BiLineChart />
           </div>
           <span>(Promedio)</span>
 
           <div className="data">
             <p>
-              2.079.211.200 <span>COP</span>
+              {getCostData(data).avgSalaryCostMonthly} <span>COP</span>
             </p>
           </div>
         </div>
         <div className="indicator">
           <div className="indicator-title">
-            <p>Gasto Salario</p> <BiLineChart />
+            <p>Total Gasto Salario</p> <BiLineChart />
           </div>
           <span>(Total)</span>
 
           <div className="data">
             <p>
-              2.079.211.200 <span>COP</span>
+              {getCostData(data).totalSalaryCost} <span>COP</span>
             </p>
           </div>
         </div>
         <div className="indicator">
           <div className="indicator-title">
-            <p>Gasto Salario </p> <BiLineChart />
+            <p>Auxilio de Transporte</p> <BiLineChart />
           </div>
-          <span>(Promedio)</span>
+          <span>(Total)</span>
 
           <div className="data">
             <p>
-              2.079.211.200 <span>COP</span>
+              {getCostTransportData(data).totalTransAuxCost} <span>COP</span>
             </p>
           </div>
         </div>
