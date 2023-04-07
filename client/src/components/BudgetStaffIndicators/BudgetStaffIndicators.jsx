@@ -3,14 +3,13 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { BiLineChart } from "react-icons/bi";
 import BudgetLineChart from "../BudgetLineChart/BudgetLineChart";
 import BudgetTripleCard from "../BudgetTripleCard/BudgetTripleCard";
+import BudgetTable from "../BudgetTable/BudgetTable";
+
 import "./index.css";
 
 function BudgetStaffIndicators({ data }) {
   //State Control
-
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   //Get Staff Needed Data
   const getStaffChartData = (dataParsed) => {
@@ -29,7 +28,7 @@ function BudgetStaffIndicators({ data }) {
       November: 0,
       December: 0,
     };
-    
+
     dataParsed.forEach((element) => {
       base.January += element.workersneeded.January;
       base.February += element.workersneeded.February;
@@ -48,7 +47,7 @@ function BudgetStaffIndicators({ data }) {
     result.label = "Personal";
     result.labels = Object.keys(base);
     result.data = Object.values(base);
-    return(result);
+    return result;
   };
 
   //Get Staff Cost
@@ -82,7 +81,7 @@ function BudgetStaffIndicators({ data }) {
       base.September += element.workersneeded.September * element.refsalary;
       base.October += element.workersneeded.October * element.refsalary;
       base.November += element.workersneeded.November * element.refsalary;
-      base.December += element.workersneeded.December * element.refsalary;  
+      base.December += element.workersneeded.December * element.refsalary;
     });
 
     //* Base Values
@@ -96,16 +95,16 @@ function BudgetStaffIndicators({ data }) {
     // * Average Salary Cost Monthly
     let avgSalaryCostMonthly = totalSalaryCost / parsedBaseValues.length;
 
-
     result.label = "Costo Salario Mensual";
     result.labels = Object.keys(base);
     result.data = parsedBaseValues;
+
     result.totalSalaryCost = totalSalaryCost.toLocaleString();
     result.avgSalaryCostMonthly = avgSalaryCostMonthly.toLocaleString();
-    return(result);
+    return result;
   };
 
-  //Salary Increment Including Salary
+  //Salary + "Factor Prestacional"
   const getIncSalaryData = (dataParsed) => {
     let result = {};
     let base = {
@@ -124,73 +123,123 @@ function BudgetStaffIndicators({ data }) {
     };
 
     dataParsed.forEach((element) => {
-      base.January += element.workersneeded.January * (element.refsalary + ((element.refsalary * 0.12)));
-      base.February += element.workersneeded.February * (element.refsalary + ((element.refsalary * 0.12)));
-      base.March += element.workersneeded.March * (element.refsalary + ((element.refsalary * 0.12)));
-      base.April += element.workersneeded.April * (element.refsalary + ((element.refsalary * 0.12)));
-      base.May += element.workersneeded.May * (element.refsalary + ((element.refsalary * 0.12)));
-      base.June += element.workersneeded.June * (element.refsalary + ((element.refsalary * 0.12)));
-      base.July += element.workersneeded.July * (element.refsalary + ((element.refsalary * 0.12)));
-      base.August += element.workersneeded.August * (element.refsalary + ((element.refsalary * 0.12)));
-      base.September += element.workersneeded.September * (element.refsalary + ((element.refsalary * 0.12)));
-      base.October += element.workersneeded.October * (element.refsalary + ((element.refsalary * 0.12)));
-      base.November += element.workersneeded.November * (element.refsalary + ((element.refsalary * 0.12)));
-      base.December += element.workersneeded.December * (element.refsalary + ((element.refsalary * 0.12)));
+      base.January +=
+        element.workersneeded.January *
+        (element.refsalary + element.refsalary * 0.4);
+      base.February +=
+        element.workersneeded.February *
+        (element.refsalary + element.refsalary * 0.4);
+      base.March +=
+        element.workersneeded.March *
+        (element.refsalary + element.refsalary * 0.4);
+      base.April +=
+        element.workersneeded.April *
+        (element.refsalary + element.refsalary * 0.4);
+      base.May +=
+        element.workersneeded.May *
+        (element.refsalary + element.refsalary * 0.4);
+      base.June +=
+        element.workersneeded.June *
+        (element.refsalary + element.refsalary * 0.4);
+      base.July +=
+        element.workersneeded.July *
+        (element.refsalary + element.refsalary * 0.4);
+      base.August +=
+        element.workersneeded.August *
+        (element.refsalary + element.refsalary * 0.4);
+      base.September +=
+        element.workersneeded.September *
+        (element.refsalary + element.refsalary * 0.4);
+      base.October +=
+        element.workersneeded.October *
+        (element.refsalary + element.refsalary * 0.4);
+      base.November +=
+        element.workersneeded.November *
+        (element.refsalary + element.refsalary * 0.4);
+      base.December +=
+        element.workersneeded.December *
+        (element.refsalary + element.refsalary * 0.4);
     });
 
-    result.label = "Incremento Salario";
+    result.label = " Salario + Factor Prestacional";
     result.labels = Object.keys(base);
     result.data = Object.values(base);
-    return(result);
+    return result;
   };
 
   //Get Transport Aux Cost per Month
   const getCostTransportData = (dataParsed) => {
-    let result = {};
-    let base = {
-      January: 0,
-      February: 0,
-      March: 0,
-      April: 0,
-      May: 0,
-      June: 0,
-      July: 0,
-      August: 0,
-      September: 0,
-      October: 0,
-      November: 0,
-      December: 0,
-    };
+    const minSalary = 1300606; //$1.300.606 COP
+    const auxTransport = 118000; //$118.000 COP
+    let result = 0;
 
     dataParsed.forEach((element) => {
-      base.January += element.workersneeded.January * element.auxtransport;
-      base.February += element.workersneeded.February * element.auxtransport;
-      base.March += element.workersneeded.March * element.auxtransport;
-      base.April += element.workersneeded.April * element.auxtransport;
-      base.May += element.workersneeded.May * element.auxtransport;
-      base.June += element.workersneeded.June * element.auxtransport;
-      base.July += element.workersneeded.July * element.auxtransport;
-      base.August += element.workersneeded.August * element.auxtransport;
-      base.September += element.workersneeded.September * element.auxtransport;
-      base.October += element.workersneeded.October * element.auxtransport;
-      base.November += element.workersneeded.November * element.auxtransport;
-      base.December += element.workersneeded.December * element.auxtransport;
+      if (element.refsalary < minSalary * 2) {
+        result +=
+          Object.values(element.workersneeded).reduce((a, b) => a + b, 0) *
+          auxTransport;
+      }
+    });
+    return result;
+  };
+
+  //Get Staff Needed Table Info.
+  let getStaffTableInfo = (dataParsed) => {
+    const columns = [
+      { field: "id", headerName: "ID", width: 60},
+      { field: "area", headerName: "Área", width: 140},
+      { field: "position", headerName: "Cargo", width: 140},
+      { field: "staffNumber", headerName:"Personal Anual", width: 125},
+      { field: "refsalary", headerName:"Referencia Salarial", width: 125},
+      { field: "incsalary", headerName:"Factor Prestacional", width: 125}
+    ];
+    let dataset = {};
+    let rows = [];
+
+    dataParsed.map((e) => {
+      let row = {};
+      row.id = e.id;
+      row.area = e.area;
+      row.position = e.position;
+      row.refsalary = e.refsalary;
+      row.incsalary = `${e.incsalary}%`;
+      row.staffNumber = Object.values(e.workersneeded).reduce((a, b) => a + b, 0);
+      rows.push(row);
     });
 
-    //* Base Values
-    let parsedBaseValues = Object.values(base);
-
-    // * Total Cost Aux Transport (Yearly)
-    let totalTransAuxCost = parsedBaseValues.reduce((a, b) => {
-      return a + b;
-    }, 0);
-
-    result.label = "Costo Auxilio de Transporte Mensual";
-    result.labels = Object.keys(base);
-    result.data = parsedBaseValues;
-    result.totalTransAuxCost = totalTransAuxCost.toLocaleString(); 
-    return(result);
+    dataset.columns = columns;
+    dataset.rows = rows;
+    return (dataset);
   };
+
+  //Get Salary Costs Table Info
+  let getSalaryCostTableInfo = (dataParsed) => {
+    const columns = [
+      { field: "id", headerName: "ID", width: 60},
+      { field: "area", headerName: "Área", width: 140},
+      { field: "position", headerName: "Cargo", width: 140},
+      { field: "staffNumber", headerName:"Personal Anual", width: 125}
+    ];
+    let dataset = {};
+    let rows = [];
+
+
+
+    dataParsed.map((e) => {
+      let row = {};
+     
+      row.id = e.id;
+      row.area = e.area;
+      row.position = e.position;
+      row.staffNumber = Object.values(e.workersneeded).reduce((a, b) => a + b, 0);
+      
+      rows.push(row);
+    });
+
+    dataset.columns = columns;
+    dataset.rows = rows;
+    return (dataset);
+  }
 
   return (
     <div className="staff-indicators-ctn">
@@ -208,23 +257,19 @@ function BudgetStaffIndicators({ data }) {
           </button>
         </div>
       </div>
+
       <div className="charts-ctn">
         <BudgetLineChart
           title={"Requerimiento de Personal"}
           data={getStaffChartData(data)}
         />
-        <BudgetLineChart 
-          title={"Gasto Salario"} 
-          data={getCostData(data)} 
-        />
         <BudgetLineChart
-          title={"Incremento Salario"}
-          data={getIncSalaryData(data)}
+          title={"Gasto Salario"}
+          data={getCostData(data)}
+          data2={getIncSalaryData(data)}
+          duaLine={true}
         />
-        <BudgetLineChart
-          title={"Gasto Auxilio de Transporte"}
-          data={getCostTransportData(data)}
-        />
+        <BudgetTable dataset={getStaffTableInfo(data)}/>
       </div>
 
       <BudgetTripleCard>
@@ -260,7 +305,7 @@ function BudgetStaffIndicators({ data }) {
 
           <div className="data">
             <p>
-              {getCostTransportData(data).totalTransAuxCost} <span>COP</span>
+              {getCostTransportData(data).toLocaleString()} <span>COP</span>
             </p>
           </div>
         </div>

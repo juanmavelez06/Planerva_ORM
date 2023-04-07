@@ -22,6 +22,7 @@ function BudgetStaff() {
     updateBudgetIndicators(data);
   }, []);
 
+  // * Get Data from Server
   let getData = async () => {
     try {
       let downloadData = await getStaffRequest();
@@ -95,7 +96,6 @@ function BudgetStaff() {
 
   return (
     <React.Fragment>
-      {/* {console.log( data1)} */}
       {addingData ? (
         <BudgetAddStaff submitData={submitData} setAddingData={setAddingData} />
       ) : (

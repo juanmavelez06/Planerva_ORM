@@ -36,8 +36,9 @@ const options = {
   },
 };
 
-function BudgetLineChart({ title, data}) {
-  const chartData = {
+function BudgetLineChart({ title, data, data2, duaLine}) {
+  let chartData;
+  {!duaLine? chartData = {
     labels: data.labels,
     datasets: [
       {
@@ -47,7 +48,24 @@ function BudgetLineChart({ title, data}) {
         backgroundColor: "rgba(0, 198, 125, .8)",
       },
     ],
-  };
+  }: chartData = {
+    labels: data.labels,
+    datasets: [
+      {
+        label: data.label,
+        data: data.data,
+        borderColor: "rgb(0, 99, 65)",
+        backgroundColor: "rgba(0, 198, 125, .8)",
+      },
+      {
+        label: data2.label,
+        data: data2.data,
+        borderColor: "rgba(0, 198, 125, 1)",
+        backgroundColor: "rgba(0, 99, 65, 0.5)",
+      }
+    ],
+  }; }
+  
 
   return (
     <div className="line-chart-ctn">

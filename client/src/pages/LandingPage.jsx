@@ -5,6 +5,8 @@ import Nav from "../components/Nav/Nav";
 import AppNavBar from "../components/AppNavBar/AppNavBar";
 import AppHeader from "../components/AppHeader/AppHeader";
 import { AiFillPieChart, AiFillHome } from 'react-icons/ai'
+import { Routes, Route, Link } from "react-router-dom";
+
 
 function LandingPage() {
   return (
@@ -12,9 +14,7 @@ function LandingPage() {
       {/* Nav Portal */}
       <Nav>
         <AppNavBar>
-          <div> <AiFillHome></AiFillHome> </div>
-          <div> <AiFillHome></AiFillHome> </div>
-          <div> <AiFillHome></AiFillHome> </div>
+          <Link to={"/"}><AiFillHome/></Link>
         </AppNavBar>
       </Nav>
 
