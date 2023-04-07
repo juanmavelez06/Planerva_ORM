@@ -11,3 +11,6 @@ export const updatePosition = async (staff) =>
 
 export const deletePositionRequest = async (id) =>
   await axios.delete(`http://localhost:3000/budget/staff/delete/${id}`);
+
+// export const addPositionRequestMicroservice = async () =>
+// await axios.post("/subirArchivos", Formdata);
