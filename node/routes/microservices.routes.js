@@ -15,37 +15,8 @@ router.post("/recibirDatos", async (req, res) => {
   try {
     const data = req.body;
     // ! Bucle en funcionamiento para los datos recibidos del microservicio*
-    data.forEach((e) => {
-
-      // const area = e.area;
-      // const position = e.position;
-      // const classing = e.classing;
-      // const account = e.account;
-      // const refsalary = e.refsalary;
-      // const facPerformance = e.facPerformance;
-      // const workersneeded = e.workersneeded;
-
-      console.log(e.area)
-      console.log(e.position)
-      console.log(e.classing)
-      console.log(e.account)
-      console.log(e.refsalary)
-      console.log(e.facPerformance)
-      console.log(e.workersneeded)
-
-      // ! Crea una instancia del modelo Budget y guarda los datos en la base de datos mysql
-
-      // Budget.create({
-      //   area: area,
-      //   position: position,
-      //   classing: classing,
-      //   account: account,
-      //   refsalary: refsalary,
-      //   facPerformance: facPerformance,
-      //   workersneeded: workersneeded,
-      // });
-
-    });
+    console.log(data)
+    
 
     res.send("Datos guardados correctamente.");
   } catch (error) {
@@ -54,7 +25,7 @@ router.post("/recibirDatos", async (req, res) => {
 
     //! Registra el error en un archivo de regsitro llamado error.log permitiendo revisar el registro de errores ocurridos en proyecto - esta en fase de pruebas 
 
-    fs.appendFileSync("error.log", `${new Date().toISOString()} - ${error.message}\n`);
+    // fs.appendFileSync("error.log", `${new Date().toISOString()} - ${error.message}\n`);
   }
 });
 
