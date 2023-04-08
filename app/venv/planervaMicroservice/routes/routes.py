@@ -41,11 +41,8 @@ def upload():
     print(rutaArchivo)
     print(archivo)
     print(nombreArchivo)
-    print("!!!****************!!*****************!!!!**********!!!!*******")
-    
     df = pd.read_excel(os.path.join(PATHFILE, nombreArchivo))
     print(df)
-    print("!!!****************!!*****************!!!!**********!!!!*******")
     data = df.to_json()
     print(data)
     try:
