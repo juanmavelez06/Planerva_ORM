@@ -7,9 +7,9 @@ let model = {
   area: "",
   position: "",
   classing: "",
-  account: "",
+  account: 1111,
   refsalary: 0,
-  incsalary: 0,
+  facperformance: 0,
   auxtransport: 0,
   workersneeded: {
     January: 0,
@@ -31,10 +31,10 @@ function BudgetAddStaff({ setAddingData, submitData }) {
   const [dataModel, setDataModel] = useState(model);
   const [areaStaffForm, setAreaStaffForm] = useState("");
   const [positionStaffForm, setPositionStaffForm] = useState("");
+  const [accountStaffForm, setAccountStaffForm] = useState(0);
   const [classingStaffForm, setClassingStaffForm] = useState("");
   const [refsalaryStaffForm, setRefSalaryStaffForm] = useState(0);
-  const [incsalaryStaffForm, setIncSalaryStaffForm] = useState(0);
-  const [auxTransStaffForm, setAuxTransStaffForm] = useState(0);
+  const [facPerformanceStaffForm, setFacPerformanceStaffForm] = useState(0);
   const [staffNeededForm, setStaffNeededForm] = useState("");
 
   useEffect(() => {
@@ -53,13 +53,39 @@ function BudgetAddStaff({ setAddingData, submitData }) {
       });
     }
 
+    switch (dataValues.classing.toUpperCase()) {
+      case "MOD":
+        dataValues.account = 7205;
+        break;
+      case "MOI":
+        dataValues.account = 7305;
+        break;
+      case "MOA":
+        dataValues.account = 5105;
+        break;
+      case "MOV":
+        dataValues.account = 5205;
+        break;
+      case "HONA":
+        dataValues.account = 5110;
+        break;
+      case "HONV":
+        dataValues.account = 5210;
+        break;
+      case "HONP":
+        dataValues.account = 7310;
+        break;
+      default:
+        dataValues.account = 1111;
+    }
+
     setDataModel(dataValues);
     setPositionStaffForm(dataValues.position);
     setAreaStaffForm(dataValues.area);
     setRefSalaryStaffForm(dataValues.refsalary);
-    setIncSalaryStaffForm(dataValues.incsalary);
+    setFacPerformanceStaffForm(dataValues.facperformance);
+    setAccountStaffForm(dataValues.account)
     setClassingStaffForm(dataValues.classing);
-    setAuxTransStaffForm(dataValues.auxtransport);
     setStaffNeededForm(dataValues.workersneeded);
   };
 
@@ -98,15 +124,17 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                 placeholder="Cargo"
                 value={positionStaffForm}
               />
-              <input
-                onInput={(e) => {
-                  updateData(e.target);
-                }}
-                type="number"
-                name="refsalary"
-                placeholder="Referencia Salarial"
-                value={Number(refsalaryStaffForm)}
-              />
+              <div>
+                <label htmlFor="refsalary">Referencia Salarial</label>
+                <input
+                  onInput={(e) => {
+                    updateData(e.target);
+                  }}
+                  type="number"
+                  name="refsalary"
+                  placeholder="Referencia Salarial"
+                />
+              </div>
               <input
                 onInput={(e) => {
                   updateData(e.target);
@@ -116,15 +144,18 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                 placeholder="Área"
                 value={areaStaffForm}
               />
-              <input
-                onInput={(e) => {
-                  updateData(e.target);
-                }}
-                type="number"
-                name="incsalary"
-                placeholder="Incremento Salarial"
-                value={Number(incsalaryStaffForm)}
-              />
+              <div>
+                <label htmlFor="facperformance">Factor Prestacional</label>
+                <input
+                  onInput={(e) => {
+                    updateData(e.target);
+                  }}
+                  type="number"
+                  name="facperformance"
+                  placeholder="Factor Prestacional"
+                  min={0}
+                />
+              </div>
               <input
                 onInput={(e) => {
                   updateData(e.target);
@@ -133,15 +164,6 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                 name="classing"
                 placeholder="Clásificacion Contable"
                 value={classingStaffForm}
-              />
-              <input
-                onInput={(e) => {
-                  updateData(e.target);
-                }}
-                type="number"
-                name="auxtransport"
-                placeholder="Auxilio de Transporte"
-                value={Number(auxTransStaffForm)}
               />
             </div>
 
@@ -305,27 +327,25 @@ function BudgetAddStaff({ setAddingData, submitData }) {
               Cargo: <span>{positionStaffForm}</span>{" "}
             </p>
             <p>
-              Producción <span> {areaStaffForm} </span>{" "}
+              Producción: <span> {areaStaffForm} </span>{" "}
             </p>
             <p>
-              Cuenta: <span> {classingStaffForm} </span>{" "}
+              Clasificación: <span> {classingStaffForm} </span>{" "}
             </p>
           </div>
 
           <div className="staff-salary-content">
             <p>
-              Referencia Salarial{" "}
-              <span>{refsalaryStaffForm.toLocaleString()} </span>{" "}
+              Referencia Salarial{": "}
+              <span>{refsalaryStaffForm.toLocaleString()}</span>{" "}
             </p>
             <p>
-              Incremento Salarial{" "}
-              <span>{incsalaryStaffForm.toLocaleString()}</span>{" "}
+              Factor Prestacional{": "}
+              <span>{`${facPerformanceStaffForm.toLocaleString()}%`}</span>{" "}
             </p>
-            <p>
-              Auxilio de Transporte{" "}
-              <span> {auxTransStaffForm.toLocaleString()} </span>
-            </p>
+            <p>Account: <span>{accountStaffForm}</span></p>
           </div>
+          
 
           <div className="monthly-dropdown-ctn">
             <p></p>
@@ -347,16 +367,14 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     area: dataModel.area,
                     position: dataModel.position,
                     classing: dataModel.classing,
-                    account:  1232, //Number(dataModel.account)
+                    account: 1232,
                     refsalary: Number(dataModel.refsalary),
-                    incsalary: Number(dataModel.incsalary),
-                    auxtransport: Number(dataModel.auxtransport),
+                    facperfomance: Number(dataModel.facperfomance),
                     workersneeded: JSON.stringify(dataModel.workersneeded),
                   };
 
                   await addPositionRequest(postStaff);
-                  submitData()
-                  ;
+                  submitData();
                 } catch (error) {
                   console.log(error);
                 }

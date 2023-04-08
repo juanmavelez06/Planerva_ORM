@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.css";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { deletePositionRequest } from "../../api/api";
@@ -27,17 +27,29 @@ function BudgetStaffTable({ budgetData, setAddingData, getData }) {
                 <p>{m.position}</p>
                 <p className="text-center">{m.classing}</p>
                 <p className="text-center"> {m.account} </p>
-                <a
-                  href=""
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    await deletePositionRequest(m.id);
-                    await getData()
-                  }}
-                  className="settings"
-                >
-                  <MdEdit data-id={m.id} />
-                </a>
+                <div className="settings">
+                  <a
+                    href=""
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      setAddingData(true);
+                    }}
+                    className="edit-entry"
+                  >
+                    <MdEdit data-id={m.id} />
+                  </a>
+                  <a
+                    href=""
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await deletePositionRequest(m.id);
+                      await getData();
+                    }}
+                    className="remove-entry"
+                  >
+                    <MdDelete data-id={m.id} />
+                  </a>
+                </div>
               </div>
             );
           })

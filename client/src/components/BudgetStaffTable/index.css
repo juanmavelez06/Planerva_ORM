@@ -36,7 +36,13 @@
   font-size: 2rem;
   align-items: center;
   text-align: center;
-  color: #00c67d;
+}
+.staff-entry .settings .edit-entry{
+  color: #3cc47c;
+  margin-right: 1rem;
+}
+.staff-entry .settings .remove-entry{
+  color: #0a2540;
 }
 .table-footer {
   display: grid;
