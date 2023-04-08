@@ -2,7 +2,7 @@ import React from "react";
 import {useState} from "react";
 import axios from 'axios';
 import "./index.css";
-import { MdEdit, MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete, MdDeleteOutline } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { deletePositionRequest } from "../../api/api";
@@ -71,7 +71,7 @@ function BudgetStaffTable({ budgetData, setAddingData, getData }) {
                     }}
                     className="remove-entry"
                   >
-                    <MdDelete data-id={m.id} />
+                    <MdDeleteOutline data-id={m.id} />
                   </a>
                 </div>
               </div>
@@ -96,11 +96,9 @@ function BudgetStaffTable({ budgetData, setAddingData, getData }) {
           <a>Descargar CSV</a> <BsCloudDownload />
         </div>
 
-        <form className="footer-btn upload-staff" onSubmit={handleSubmit}>
-          <input name="file" accept=".xlsx, .xls" type="file" enctype="multipart/form-data" method="post" onClick={handleFileChange}/> <AiOutlineCloudUpload />
-          <button type="submit">Enviar archivo</button>
-        </form>
-
+        <div className="footer-btn upload-staff">
+          <a>Subir CSV</a> <AiOutlineCloudUpload />
+        </div>
       </div>
     </div>
   );

@@ -7,15 +7,15 @@ const dataTry = [
         "account": 5112,
         "refsalary": 1200000,
         "incsalary": 12,
-        "auxtransport": 100000,
+        "auxtransport": 180000,
         "workersneeded": 
         {
-            "January": 2,
+            "January": 1,
             "February": 1,
             "March": 1,
             "April": 1,
             "May": 1,
-            "June": 10,
+            "June": 1,
             "July": 1,
             "August": 1,
             "September": 1,

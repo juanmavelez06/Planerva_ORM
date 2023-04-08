@@ -26,16 +26,18 @@ function BudgetStaff() {
   let getData = async () => {
     try {
       let downloadData = await getStaffRequest();
+      console.log(downloadData);
       let downloadedData = await downloadData.data;
+      console.log(downloadData.data);
 
-      downloadedData.forEach((e) => {
-        if (typeof e.workersneeded === "string") {
-          e.workersneeded = JSON.parse(e.workersneeded);
-        } else {
-          e.workersneeded = e.workersneeded;
-        }
-      });
-      setData(downloadedData);
+      // downloadedData.forEach((e) => {
+      //   if (typeof e.workersneeded === "string") {
+      //     e.workersneeded = JSON.parse(e.workersneeded);
+      //   } else {
+      //     e.workersneeded = e.workersneeded;
+      //   }
+      // });
+      // setData(downloadedData);
     } catch (error) {
       console.log(error);
     }
