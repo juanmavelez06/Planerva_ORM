@@ -29,9 +29,10 @@ def loadError(err):
     return jsonify({'mensaje': 'Error, no se pudo realizar la carga del archivo'}), 500
 
 
-def responseOkJson(message: str, status_code: int = 200) -> Response:
-    response = jsonify({
-        "message": message
-    })
+def responseOkJson(message: str, status_code: int = 200, data: str = None) -> Response:
+    response_data = {"message": message}
+    if data is not None:
+        response_data["data"] = data
+    response = jsonify(response_data)
     response.status_code = status_code
-    return response 
+    return response

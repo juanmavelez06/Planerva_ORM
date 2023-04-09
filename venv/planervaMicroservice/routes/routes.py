@@ -4,6 +4,8 @@ from respones.responses import emptyFile, processError, alreadyExists, extension
 import pandas as pd
 import os
 import requests
+import json
+import uuid
 
 
 app = Flask(__name__)
@@ -22,14 +24,16 @@ app.config['UPLOAD_FOLDER'] = PATHFILE
 
 
 #* Ruta receptora de archivos validación de extensiones
-@route.post("/upload")
+@route.route("/upload", methods=('GET', 'POST'))
 def upload():
     archivo = request.files['file']
     if archivo.filename == '':
         return emptyFile(404)
 
-    nombreArchivo = secure_filename(archivo.filename)
-    rutaArchivo = PATHFILE + nombreArchivo
+    nombreArchivo = secure_filename(os.path.basename(archivo.filename))
+    archivoId = str(uuid.uuid4())
+    nombreArchivoID  = archivoId + '_' + nombreArchivo
+    rutaArchivo = os.path.join(PATHFILE, nombreArchivoID)
     
     extension = os.path.splitext(nombreArchivo)[1][1:].lower()
     if extension not in EXTENSIONESPERMITIDAS:
@@ -41,27 +45,29 @@ def upload():
     print(rutaArchivo)
     print(archivo)
     print(nombreArchivo)
-    df = pd.read_excel(os.path.join(PATHFILE, nombreArchivo))
+    df = pd.read_excel(os.path.join(PATHFILE, nombreArchivoID))
     print(df)
-    data = df.to_json()
+    data = df.to_dict(orient='records')
+    jsonData = json.dumps(data)
     print(data)
     try:
         if data:
             url = "http://127.0.0.1:3000/recibirDatos"
             headers = {'Content-Type': 'application/json'}
-            response = requests.post(url,data=data, headers=headers)
-            print(response)
+            response = requests.post(url,data=jsonData, headers=headers)
+            print(response.status_code)
+            print(response.content)
             try:
                 if response.ok:
-                    return responseOkJson("Se envió el archivo correctamente", 200)
+                    return responseOkJson("Se envió el archivo correctamente", 200, nombreArchivoID)
                 else:
-                    return f"error al enviar los datos"
+                  return f"error al enviar los datos"
             except FileExistsError as e:
                 print("error: no se pudo hacer la carga del archivo correctamente", e)
                 return processError(e)   
         else:
             print(data)
-            return requestsError(400)  
+            return requestsError(400) 
     except FileExistsError as e:
         print("error: no se pudo hacer la carga del archivo correctamente", e)
         return processError(e)
