@@ -9,7 +9,7 @@ CREATE TABLE budgetpersonals (
     position VARCHAR(50) NOT NULL,
     classing VARCHAR(50) NOT NULL,
     account INT(20) NOT NULL,
-    refsalary INT(50) NOT NULL,
+    refsalary INT(50) NOT NULL, --constante
     facPerformance INT(10) NOT NULL,
     workersneeded VARCHAR(255) NOT NULL,
     createdAt datetime NOT NULL,
