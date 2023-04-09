@@ -186,12 +186,16 @@ function BudgetStaffIndicators({ data }) {
   //Get Staff Needed Table Info.
   let getStaffTableInfo = (dataParsed) => {
     const columns = [
-      { field: "id", headerName: "ID", width: 60},
-      { field: "area", headerName: "Área", width: 140},
-      { field: "position", headerName: "Cargo", width: 140},
-      { field: "staffNumber", headerName:"Personal Anual", width: 125},
-      { field: "refsalary", headerName:"Referencia Salarial", width: 125},
-      { field: "incsalary", headerName:"Factor Prestacional", width: 125}
+      { field: "id", headerName: "ID", width: 60 },
+      { field: "area", headerName: "Área", width: 140 },
+      { field: "position", headerName: "Cargo", width: 140 },
+      { field: "staffNumber", headerName: "Personal Anual", width: 125 },
+      { field: "refsalary", headerName: "Referencia Salarial", width: 125 },
+      {
+        field: "facperformance",
+        headerName: "Factor Prestacional",
+        width: 125,
+      },
     ];
     let dataset = {};
     let rows = [];
@@ -202,44 +206,48 @@ function BudgetStaffIndicators({ data }) {
       row.area = e.area;
       row.position = e.position;
       row.refsalary = e.refsalary;
-      row.incsalary = `${e.incsalary}%`;
-      row.staffNumber = Object.values(e.workersneeded).reduce((a, b) => a + b, 0);
+      row.facperformance = `${e.facperformance}%`;
+      row.staffNumber = Object.values(e.workersneeded).reduce(
+        (a, b) => a + b,
+        0
+      );
       rows.push(row);
     });
 
     dataset.columns = columns;
     dataset.rows = rows;
-    return (dataset);
+    return dataset;
   };
 
   //Get Salary Costs Table Info
   let getSalaryCostTableInfo = (dataParsed) => {
     const columns = [
-      { field: "id", headerName: "ID", width: 60},
-      { field: "area", headerName: "Área", width: 140},
-      { field: "position", headerName: "Cargo", width: 140},
-      { field: "staffNumber", headerName:"Personal Anual", width: 125}
+      { field: "id", headerName: "ID", width: 60 },
+      { field: "area", headerName: "Área", width: 140 },
+      { field: "position", headerName: "Cargo", width: 140 },
+      { field: "staffNumber", headerName: "Personal Anual", width: 125 },
     ];
     let dataset = {};
     let rows = [];
 
-
-
     dataParsed.map((e) => {
       let row = {};
-     
+
       row.id = e.id;
       row.area = e.area;
       row.position = e.position;
-      row.staffNumber = Object.values(e.workersneeded).reduce((a, b) => a + b, 0);
-      
+      row.staffNumber = Object.values(e.workersneeded).reduce(
+        (a, b) => a + b,
+        0
+      );
+
       rows.push(row);
     });
 
     dataset.columns = columns;
     dataset.rows = rows;
-    return (dataset);
-  }
+    return dataset;
+  };
 
   return (
     <div className="staff-indicators-ctn">
@@ -269,7 +277,7 @@ function BudgetStaffIndicators({ data }) {
           data2={getIncSalaryData(data)}
           duaLine={true}
         />
-        <BudgetTable dataset={getStaffTableInfo(data)}/>
+        <BudgetTable dataset={getStaffTableInfo(data)} />
       </div>
 
       <BudgetTripleCard>

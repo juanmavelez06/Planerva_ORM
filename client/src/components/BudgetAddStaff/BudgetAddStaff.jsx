@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { addPositionRequest } from "../../api/api.js";
+import { addPositionRequest, updatePositionRequest } from "../../api/api.js";
 import "./styles.css";
 
 //Data Model
@@ -27,8 +27,8 @@ let model = {
   },
 };
 
-function BudgetAddStaff({ setAddingData, submitData }) {
-  const [dataModel, setDataModel] = useState(model);
+function BudgetAddStaff({ setAddingData, submitData, editData, setEdittingData }) {
+  const [dataModel, setDataModel] = useState(editData ? editData : model);
   const [areaStaffForm, setAreaStaffForm] = useState("");
   const [positionStaffForm, setPositionStaffForm] = useState("");
   const [accountStaffForm, setAccountStaffForm] = useState(0);
@@ -39,11 +39,11 @@ function BudgetAddStaff({ setAddingData, submitData }) {
 
   useEffect(() => {
     updateData();
-  }, []);
+  },[]);
 
   let updateData = (v) => {
     let dataValues = dataModel;
-
+  
     if (v) {
       let entry = v;
       Object.defineProperty(dataValues, entry.name, {
@@ -84,7 +84,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
     setAreaStaffForm(dataValues.area);
     setRefSalaryStaffForm(dataValues.refsalary);
     setFacPerformanceStaffForm(dataValues.facperformance);
-    setAccountStaffForm(dataValues.account)
+    setAccountStaffForm(dataValues.account);
     setClassingStaffForm(dataValues.classing);
     setStaffNeededForm(dataValues.workersneeded);
   };
@@ -110,7 +110,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
   };
 
   return (
-    <React.Fragment>
+    <React.Fragment>      
       <div className="budget-add-ctn">
         <div className="add-staff-form-ctn">
           <form className="add-staff-form" action="">
@@ -132,7 +132,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                   }}
                   type="number"
                   name="refsalary"
-                  placeholder="Referencia Salarial"
+                  placeholder={dataModel.refsalary}
                 />
               </div>
               <input
@@ -152,7 +152,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                   }}
                   type="number"
                   name="facperformance"
-                  placeholder="Factor Prestacional"
+                  placeholder={dataModel.facperformance}
                   min={0}
                 />
               </div>
@@ -180,6 +180,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     type="number"
                     min={0}
                     name="January"
+                    placeholder={staffNeededForm.January}
                   />
                 </div>
 
@@ -192,6 +193,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     type="number"
                     min={0}
                     name="February"
+                    placeholder={staffNeededForm.February}
                   />
                 </div>
 
@@ -203,6 +205,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.March}
                     name="March"
                   />
                 </div>
@@ -215,6 +218,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.April}
                     name="April"
                   />
                 </div>
@@ -227,6 +231,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.May}
                     name="May"
                   />
                 </div>
@@ -239,6 +244,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.June}
                     name="June"
                   />
                 </div>
@@ -251,6 +257,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.July}
                     name="July"
                   />
                 </div>
@@ -263,6 +270,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.August}
                     name="August"
                   />
                 </div>
@@ -275,6 +283,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.September}
                     name="September"
                   />
                 </div>
@@ -287,6 +296,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.October}
                     name="October"
                   />
                 </div>
@@ -299,6 +309,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.November}
                     name="November"
                   />
                 </div>
@@ -311,6 +322,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     }}
                     type="number"
                     min={0}
+                    placeholder={staffNeededForm.December}
                     name="December"
                   />
                 </div>
@@ -327,7 +339,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
               Cargo: <span>{positionStaffForm}</span>{" "}
             </p>
             <p>
-              Producción: <span> {areaStaffForm} </span>{" "}
+              Área: <span> {areaStaffForm} </span>{" "}
             </p>
             <p>
               Clasificación: <span> {classingStaffForm} </span>{" "}
@@ -343,9 +355,10 @@ function BudgetAddStaff({ setAddingData, submitData }) {
               Factor Prestacional{": "}
               <span>{`${facPerformanceStaffForm.toLocaleString()}%`}</span>{" "}
             </p>
-            <p>Account: <span>{accountStaffForm}</span></p>
+            <p>
+              Account: <span>{accountStaffForm}</span>
+            </p>
           </div>
-          
 
           <div className="monthly-dropdown-ctn">
             <p></p>
@@ -354,6 +367,7 @@ function BudgetAddStaff({ setAddingData, submitData }) {
           <div className="submit-btns">
             <button
               onClick={(e) => {
+                setEdittingData(false);
                 setAddingData(false);
               }}
               className="cancel-btn"
@@ -367,14 +381,19 @@ function BudgetAddStaff({ setAddingData, submitData }) {
                     area: dataModel.area,
                     position: dataModel.position,
                     classing: dataModel.classing,
-                    account: 1232,
+                    account: dataModel.account,
                     refsalary: Number(dataModel.refsalary),
-                    facperfomance: Number(dataModel.facperfomance),
+                    facperformance: Number(dataModel.facperformance),
                     workersneeded: JSON.stringify(dataModel.workersneeded),
                   };
-
-                  await addPositionRequest(postStaff);
-                  submitData();
+                  // editData
+                  //If Case is add data
+                  if(editData){
+                    await updatePositionRequest(postStaff, editData.id)
+                  }else{
+                    await addPositionRequest(postStaff);
+                  }
+                  await submitData();              
                 } catch (error) {
                   console.log(error);
                 }

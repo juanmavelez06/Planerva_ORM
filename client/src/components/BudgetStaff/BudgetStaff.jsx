@@ -16,6 +16,7 @@ function BudgetStaff() {
   const [mainAccount, setMainAccount] = useState(0);
   const [budgetIncSalary, setBudgetIncSalary] = useState(0);
   const [addingData, setAddingData] = useState(false);
+  const [edittingData, setEdittingData] = useState(false);
 
   useEffect(() => {
     getData();
@@ -26,18 +27,16 @@ function BudgetStaff() {
   let getData = async () => {
     try {
       let downloadData = await getStaffRequest();
-      console.log(downloadData);
       let downloadedData = await downloadData.data;
-      console.log(downloadData.data);
 
-      // downloadedData.forEach((e) => {
-      //   if (typeof e.workersneeded === "string") {
-      //     e.workersneeded = JSON.parse(e.workersneeded);
-      //   } else {
-      //     e.workersneeded = e.workersneeded;
-      //   }
-      // });
-      // setData(downloadedData);
+      downloadedData.forEach((e) => {
+        if (typeof e.workersneeded === "string") {
+          e.workersneeded = JSON.parse(e.workersneeded);
+        } else {
+          e.workersneeded = e.workersneeded;
+        }
+      });
+      setData(downloadedData);
     } catch (error) {
       console.log(error);
     }
@@ -82,30 +81,38 @@ function BudgetStaff() {
       })[0][0];
     });
 
-    updateStaffNeeded(staffNeededMonthly);
+    setStaffMonthly(staffNeededMonthly);
     setMainAccount(mainAcc);
     setBudgetIncSalary(avgIncSalary);
-  };
-
-  let updateStaffNeeded = (value) => {
-    setStaffMonthly(value);
   };
 
   let submitData = () => {
     getData();
     setAddingData(false);
+    setEdittingData(false);
+  };
+
+  let editData = (e) => {
+    setAddingData(true);
+    setEdittingData(e);
   };
 
   return (
     <React.Fragment>
       {addingData ? (
-        <BudgetAddStaff submitData={submitData} setAddingData={setAddingData} />
+        <BudgetAddStaff
+          submitData={submitData}
+          setAddingData={setAddingData}
+          editData={edittingData}
+          setEdittingData={setEdittingData}
+        />
       ) : (
         <div className="budgetStaff section">
           <BudgetStaffTable
             budgetData={data}
             getData={getData}
             setAddingData={setAddingData}
+            editData={editData}
           ></BudgetStaffTable>
           <div className="staff-cards-ctn">
             <BudgetCard

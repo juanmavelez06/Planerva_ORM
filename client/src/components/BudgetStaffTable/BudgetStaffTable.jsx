@@ -1,34 +1,25 @@
 import React from "react";
-import {useState} from "react";
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 import "./index.css";
 import { MdEdit, MdDelete, MdDeleteOutline } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { deletePositionRequest } from "../../api/api";
 
-
-function BudgetStaffTable({ budgetData, setAddingData, getData }) {
-
-  const [file, setFile] = useState(null);
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
+function BudgetStaffTable({ budgetData, setAddingData, getData, editData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await axios.post('/subirArchivos', formData);
-      console.log(response.data)
+      const response = await axios.post("/subirArchivos", formData);
+      console.log(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-  }
+  };
 
   return (
     <div className="staff-table-ctn">
@@ -56,7 +47,7 @@ function BudgetStaffTable({ budgetData, setAddingData, getData }) {
                     href=""
                     onClick={async (e) => {
                       e.preventDefault();
-                      setAddingData(true);
+                      editData(m);
                     }}
                     className="edit-entry"
                   >
