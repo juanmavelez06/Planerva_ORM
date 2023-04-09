@@ -14,10 +14,8 @@ const BudgetModel =  db.define('budgetpersonals',{
     position: {type:DataTypes.STRING},
     classing: {type:DataTypes.STRING},
     account: {type:DataTypes.NUMBER},
-    facperformance:{type:DataTypes.NUMBER},
-    workersneeded:{type:DataTypes.STRING},
+    refsalary: {type:DataTypes.NUMBER},
     
-
 }) 
 
 export default BudgetModel;
