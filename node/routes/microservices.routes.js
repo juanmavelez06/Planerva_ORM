@@ -41,28 +41,29 @@ router.post("/recibirDatos", async (req, res) => {
       newData.push(obj);
     }
     const jsonString = JSON.stringify(newData);
-    console.log(jsonString);
-
-    jsonString.forEach((e) => {
+    // console.log(jsonString);
+    const jsonArray = JSON.parse(jsonString);
+    console.log(jsonArray)
+    jsonArray .forEach((e) => {
 
       const area = e.area;
       const position = e.position;
       const classing = e.classing;
       const account = e.account;
       const refsalary = e.refsalary;
-      const facPerformance = e.facPerformance;
+      const facPerformance = e.incsalary;
       const workersneeded = e.workersneeded;
+      const workersneededStirng = JSON.stringify(workersneeded);
 
-      console.log(e.area)
-      console.log(e.position)
-      console.log(e.classing)
-      console.log(e.account)
-      console.log(e.refsalary)
-      console.log(e.facPerformance)
-      console.log(e.workersneeded)
+      // console.log(e.area)
+      // console.log(e.position)
+      // console.log(e.classing)
+      // console.log(e.account)
+      // console.log(e.refsalary)
+      // console.log(e.facPerformance)
+      // console.log(e.workersneededStirng)
 
       // ! Crea una instancia del modelo Budget y guarda los datos en la base de datos mysql
-
       Budget.create({
         area: area,
         position: position,
@@ -70,7 +71,7 @@ router.post("/recibirDatos", async (req, res) => {
         account: account,
         refsalary: refsalary,
         facPerformance: facPerformance,
-        workersneeded: workersneeded,
+        workersneeded: workersneededStirng,
       });
 
     });
