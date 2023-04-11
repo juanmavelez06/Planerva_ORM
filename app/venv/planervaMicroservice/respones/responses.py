@@ -39,5 +39,5 @@ def responseOkJson(message: str, status_code: int = 200, data: str = None) -> Re
     response.status_code = status_code
     return response
 
-def removeFile(path: any, nameFileId: any) -> None:
+def removeFile(path: any, nameFileId: any) -> Response:
     os.remove(os.path.join(path, nameFileId))
