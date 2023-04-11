@@ -28,23 +28,6 @@
   right: -6rem;
   margin: 1rem 0;
 }
-.indicators-header-ctn .staff-filters {
-  margin-right: 4rem;
-}
-.indicators-header-ctn .staff-filters .filter {
-  font-size: 2rem;
-  font-weight: 500;
-  color: #006341;
-  text-align: center;
-  border: 0;
-  padding: 1rem 2.5rem;
-}
-.indicators-header-ctn .staff-filters .areaSelector {
-  background-color: #00c67d;
-  color: #f6fbff;
-  border-radius: 0 0 0 1rem;
-  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.3);
-}
 .charts-ctn {
   display: grid;
   grid-template-columns: 50% 50%;
@@ -52,7 +35,8 @@
   row-gap: 4rem;
   margin-top: 2rem;
 }
-.charts-ctn .budget-table{
+.charts-ctn .budget-table {
   margin-top: 1rem;
   grid-column: 1 / 3;
 }
+

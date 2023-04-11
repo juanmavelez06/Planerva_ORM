@@ -1,0 +1,64 @@
+.staff-filters {
+  display: flex;
+  margin-right: 4rem;
+}
+.staff-filters .areaSelector,
+.cargoSelector,
+.classSelector,
+.monthSelector {
+  position: relative;
+  padding: 0;
+}
+
+.staff-filters .filter-checkbox {
+  display: none;
+  position: absolute;
+  margin: 0rem;
+  padding: 4rem;
+  width: 100%;
+  height: 100%;
+  background-color: #00c67d;
+  color: #f6fbff;
+  height: 20rem;
+  overflow-y: scroll;
+  box-shadow: 0px 5px 6px 1px rgba(0, 0, 0, 0.3);
+}
+
+.staff-filters .filter-checkbox li {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 90% 5%;
+  margin-bottom: 1.5rem;
+}
+
+.staff-filters .filter-checkbox li input {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+/* Display When Hover */
+.staff-filters .areaSelector:hover .area-filter {
+  display: block;
+}
+.staff-filters .cargoSelector:hover .cargo-filter {
+  display: block;
+}
+.staff-filters .classSelector:hover .class-filter {
+  display: block;
+}
+.staff-filters .monthSelector:hover .month-filter {
+  display: block;
+}
+
+.indicators-header-ctn .staff-filters .filter {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #006341;
+  text-align: center;
+  border: 0;
+  padding: 1rem 2.5rem;
+}
+.green-theme {
+  background-color: #00c67d;
+  color: #f6fbff !important;
+}

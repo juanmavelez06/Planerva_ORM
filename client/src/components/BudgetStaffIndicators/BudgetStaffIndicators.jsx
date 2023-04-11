@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { RiArrowDropDownLine } from "react-icons/ri";
 import { BiLineChart } from "react-icons/bi";
 import BudgetLineChart from "../BudgetLineChart/BudgetLineChart";
 import BudgetTripleCard from "../BudgetTripleCard/BudgetTripleCard";
 import BudgetTable from "../BudgetTable/BudgetTable";
-
+import BudgetStaffFilters from "../BudgetStaffFilters/BudgetStaffFilters";
 import "./index.css";
 
 function BudgetStaffIndicators({ data }) {
@@ -122,6 +121,7 @@ function BudgetStaffIndicators({ data }) {
       December: 0,
     };
 
+    // todo cambiar 0.4 por factor prestacional
     dataParsed.forEach((element) => {
       base.January +=
         element.workersneeded.January *
@@ -219,36 +219,6 @@ function BudgetStaffIndicators({ data }) {
     return dataset;
   };
 
-  //Get Salary Costs Table Info
-  let getSalaryCostTableInfo = (dataParsed) => {
-    const columns = [
-      { field: "id", headerName: "ID", width: 60 },
-      { field: "area", headerName: "Área", width: 140 },
-      { field: "position", headerName: "Cargo", width: 140 },
-      { field: "staffNumber", headerName: "Personal Anual", width: 125 },
-    ];
-    let dataset = {};
-    let rows = [];
-
-    dataParsed.map((e) => {
-      let row = {};
-
-      row.id = e.id;
-      row.area = e.area;
-      row.position = e.position;
-      row.staffNumber = Object.values(e.workersneeded).reduce(
-        (a, b) => a + b,
-        0
-      );
-
-      rows.push(row);
-    });
-
-    dataset.columns = columns;
-    dataset.rows = rows;
-    return dataset;
-  };
-
   return (
     <div className="staff-indicators-ctn">
       <div className="indicators-header-ctn">
@@ -256,14 +226,8 @@ function BudgetStaffIndicators({ data }) {
           <h2>Indicadores</h2>
           <h3>Personal</h3>
         </div>
-        <div className="staff-filters">
-          <button className="areaSelector filter">
-            Área <RiArrowDropDownLine />
-          </button>
-          <button className="monthSelector filter">
-            Mes <RiArrowDropDownLine />
-          </button>
-        </div>
+
+        <BudgetStaffFilters data={data} filteredData={""} />
       </div>
 
       <div className="charts-ctn">
