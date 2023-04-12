@@ -28,7 +28,7 @@ function BudgetStaff() {
     try {
       let downloadData = await getStaffRequest();
       let downloadedData = await downloadData.data;
-
+      console.log(downloadData)
       downloadedData.forEach((e) => {
         if (typeof e.workersneeded === "string") {
           e.workersneeded = JSON.parse(e.workersneeded);

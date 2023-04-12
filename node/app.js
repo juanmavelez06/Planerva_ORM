@@ -15,8 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 //! Limites de Datos para la carga de archivos desde Servidor
-app.use(bodyParser.json({limit: '13mb'}));
-app.use(bodyParser.urlencoded({limit: '13mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', enconding:'utf8', extended: true}));
 
 //Routes
 app.use("/budget", blogRoutes);
