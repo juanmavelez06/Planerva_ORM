@@ -4,6 +4,7 @@ import { MdEdit, MdDelete, MdDeleteOutline } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { deletePositionRequest } from "../../api/api";
+import Swal from "sweetalert2";
 
 function BudgetStaffTable({
   budgetData,
@@ -12,6 +13,28 @@ function BudgetStaffTable({
   editData,
   setUploadFile,
 }) {
+
+  //!Funcion para confirmar el eliminado de datos 
+  const handleDelete =  async (id) => {
+  const result = await Swal.fire ({
+      title: "¿Estás seguro?",
+      text: "El archivo se eliminará permanentemente",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+  });
+    if (result.isConfirmed){
+      try{
+        await deletePositionRequest(id);
+        await getData();
+      }catch (error) {
+        Swal.fire("Eliminando", "Archivo eliminado con exito")
+      }
+    }
+  };
   return (
     <div className="staff-table-ctn">
       <div className="table-titles">
@@ -48,8 +71,9 @@ function BudgetStaffTable({
                     href=""
                     onClick={async (e) => {
                       e.preventDefault();
-                      await deletePositionRequest(m.id);
-                      await getData();
+                      handleDelete(m.id);
+                      // await deletePositionRequest(m.id);
+                      // await getData();
                     }}
                     className="remove-entry"
                   >
