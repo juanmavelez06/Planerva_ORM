@@ -98,6 +98,11 @@ function BudgetStaff() {
     setEdittingData(e);
   };
 
+  let updateFileData = (e) => {
+    setUploadFile(false);
+    getData()
+  }
+
   return (
     <React.Fragment>
       {addingData ? (
@@ -108,7 +113,7 @@ function BudgetStaff() {
           setEdittingData={setEdittingData}
         />
       ) : uploadFile ? (
-        <AppUploadFile setUploadFile={setUploadFile}/>
+        <AppUploadFile updateFileData={updateFileData}/>
       ) : (
         <div className="budgetStaff section">
           <BudgetStaffTable

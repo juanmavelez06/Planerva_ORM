@@ -3,12 +3,12 @@ import "./index.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-function AppUploadFile({setUploadFile}) {
+function AppUploadFile({ updateFileData }) {
   const [File, setFile] = useState(null);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    
+
     if (!selectedFile) {
       setFile(null);
       Swal.fire({
@@ -55,11 +55,12 @@ function AppUploadFile({setUploadFile}) {
 
     // todo - Hacer Control de Promesas
     axios
-      .post("http://localhost:5000/upload", formData, {headers: {'Content-Type': 'multipart/form-data'}})
-    
+      .post("http://localhost:5000/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+
       .then((response) => {
         setFile(null);
-        Promise.resolve(response)
       })
       .catch((error) => {
         console.error(error);
@@ -75,12 +76,18 @@ function AppUploadFile({setUploadFile}) {
     <div>
       <form>
         <input type="file" accept=".xlsx" onChange={handleFileChange} />
-        <button onClick={async (e) => {
-          // todo - No setear set upload file como false hasta que la promesa esté resuelta
-          // todo - Colocar una alerta para cuando los archivos se hayan subido éxitosamente
-          await handleUpload(e)
-          await setUploadFile(false)  
-        }}>Subir</button>
+        <button
+          onClick={async (e) => {
+            handleUpload(e);
+            // todo - Colocar una alerta para cuando los archivos se hayan subido éxitosamente
+            // todo - No setear set upload file como false hasta que la promesa esté resuelta
+            setTimeout(() => {
+              updateFileData();
+            }, 500);
+          }}
+        >
+          Subir
+        </button>
       </form>
     </div>
   );
