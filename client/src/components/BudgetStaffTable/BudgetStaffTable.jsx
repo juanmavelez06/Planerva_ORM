@@ -6,19 +6,68 @@ import { MdEdit, MdDelete, MdDeleteOutline } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { deletePositionRequest } from "../../api/api";
+import Swal from "sweetalert2";
+
 
 function BudgetStaffTable({ budgetData, setAddingData, getData, editData }) {
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
 
-    try {
-      const response = await axios.post("/subirArchivos", formData);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+  const [File, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if(!selectedFile){
+      setFile(null);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "¡No se seleccionó ningun archivo!",    
+      });
+      return;
     }
+
+    if(selectedFile.type !== "application/vnd.ms-excel" &&
+    selectedFile.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") { //MIME .XLS Y XLSX
+      setFile(null);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "¡El archivo seleccionado no es un Excel!",    
+      });
+      return;
+    }
+
+    const maxSize = 50 * 1024 * 1024; //50mb
+    if(selectedFile.size > maxSize){
+      setFile(null);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "¡El archivo seleccionado excede el tamaño maximo!",    
+      });
+      return;
+    }
+
+    setFile(selectedFile);
+  };
+
+  const handleUpload = () => {
+    const formData = new FormData();
+    formData.append('file', File);
+
+    axios.post('http://localhost:5000/upload', formData)
+   
+      .then(response => {
+        console.log(response.data);
+        setFile(null)
+      })
+      .catch(error => {
+        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "¡Algo salió mal!",    
+        });
+      });
   };
 
   return (
@@ -88,7 +137,11 @@ function BudgetStaffTable({ budgetData, setAddingData, getData, editData }) {
         </div>
 
         <div className="footer-btn upload-staff">
-          <a>Subir CSV</a> <AiOutlineCloudUpload />
+          <form>
+          <input type="file" accept=".xlsx" onChange={handleFileChange} />
+          <button onClick={handleUpload}>Subir</button>
+          </form>
+          <AiOutlineCloudUpload />
         </div>
       </div>
     </div>

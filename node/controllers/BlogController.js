@@ -37,6 +37,7 @@ export const createBlog = async (req, res) => {
   }
 };
 
+
 //Actualizar un registro
 export const updateBlog = async (req, res) => {
   try {
@@ -63,3 +64,7 @@ export const deleteBlog = async (req, res) => {
     });
   } catch (error) {}
 };
+
+export const controllerfile = async (req, res) =>{
+  console.log(req.file)
+}

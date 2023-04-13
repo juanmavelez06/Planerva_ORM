@@ -10,10 +10,20 @@ CREATE TABLE budgetpersonals (
     classing VARCHAR(50) NOT NULL,
     account INT(20) NOT NULL,
     refsalary INT(50) NOT NULL,
-    facperformance INT(10) NOT NULL,
+    facperformance INT(10) NOT NULL, --!Reemplazo auxilio transporte
     workersneeded VARCHAR(255) NOT NULL,
     createdAt datetime NOT NULL,
     updatedAt datetime NOT NULL,
     PRIMARY KEY(id)
+);
+
+--Identificador CSV
+CREATE TABLE datacsv (
+    id_usuario INT (11) NOT NULL AUTO_INCREMENT,
+    data_csv VARCHAR (250) NOT NULL, 
+    creationdate datetime NOT NULL,
+    createdAt datetime NOT NULL,
+    updatedAt datetime NOT NULL,
+    PRIMARY KEY(data_csv)
 );
 

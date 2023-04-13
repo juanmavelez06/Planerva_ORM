@@ -16,25 +16,27 @@ router.post("/recibirDatos", async (req, res) => {
 
   try {
 
+    // const data = req.body;
     const newData = [];
+    const months = {
+      "Enero" : "January",
+      "Febrero" : "February",
+      "Marzo" : "March",
+      "Abril" : "April",
+      "Mayo" : "May",
+      "Junio" : "June",
+      "Julio" : "July",
+      "Agosto" : "August",
+      "Septiembre" : "September",
+      "Octubre" : "October",
+      "Noviembre" : "November",
+      "Diciembre" : "December",
+    }
     for (const obj of req.body) {
       const workersneeded = {};
       for (const key in obj) {
-        if (
-          key.startsWith("enero") ||
-          key.startsWith("febrero") ||
-          key.startsWith("marzo") ||
-          key.startsWith("abril") ||
-          key.startsWith("mayo") ||
-          key.startsWith("junio") ||
-          key.startsWith("julio") ||
-          key.startsWith("agosto") ||
-          key.startsWith("septiembre") ||
-          key.startsWith("octubre") ||
-          key.startsWith("noviembre") ||
-          key.startsWith("diciembre")
-        ) {
-          workersneeded[key] = obj[key];
+        if (months.hasOwnProperty(key)) {
+          workersneeded[months[key]] = obj[key];
         }
       }
       obj.workersneeded = workersneeded;
@@ -43,7 +45,10 @@ router.post("/recibirDatos", async (req, res) => {
     const jsonString = JSON.stringify(newData);
     // console.log(jsonString);
     const jsonArray = JSON.parse(jsonString);
-    console.log(jsonArray)
+    // console.log(jsonArray)
+
+    
+
     jsonArray .forEach((e) => {
 
       const area = e.area;
@@ -51,17 +56,9 @@ router.post("/recibirDatos", async (req, res) => {
       const classing = e.classing;
       const account = e.account;
       const refsalary = e.refsalary;
-      const facPerformance = e.incsalary;
+      const facperformance = e.facperformance;
       const workersneeded = e.workersneeded;
       const workersneededStirng = JSON.stringify(workersneeded);
-
-      // console.log(e.area)
-      // console.log(e.position)
-      // console.log(e.classing)
-      // console.log(e.account)
-      // console.log(e.refsalary)
-      // console.log(e.facPerformance)
-      // console.log(e.workersneededStirng)
 
       // ! Crea una instancia del modelo Budget y guarda los datos en la base de datos mysql
       Budget.create({
@@ -70,7 +67,7 @@ router.post("/recibirDatos", async (req, res) => {
         classing: classing,
         account: account,
         refsalary: refsalary,
-        facPerformance: facPerformance,
+        facperformance: facperformance,
         workersneeded: workersneededStirng,
       });
 
@@ -92,7 +89,7 @@ router.post("/recibirDatos", async (req, res) => {
 
 try {
   await dbconection.authenticate();
-  console.log("Conexion exitosa con la base de datos");
+  console.log("La conexion se dio con exito");
 } catch (error) {
   console.log("Error al conectarse con la base de Datos :", error);
 }
