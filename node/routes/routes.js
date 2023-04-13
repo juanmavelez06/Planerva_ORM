@@ -5,10 +5,12 @@ import {
   getAllBlogs,
   getBlog,
   updateBlog,
+  controllerfile
 } from "../controllers/BlogController.js";
 
 const router = express.Router();
 
+router.post("/testfile", controllerfile);
 router.get("/staff", getAllBlogs);
 router.post("/staff/add", createBlog);
 router.put("/staff/edit/:id", updateBlog);
