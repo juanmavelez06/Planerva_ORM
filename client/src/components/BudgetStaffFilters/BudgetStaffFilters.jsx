@@ -6,7 +6,8 @@ function BudgetStaffFilters({ data }) {
   const [filters, setFilters] = useState({
     areaFilters: [],
     positionFilters: [],
-    classingFilters: []
+    classingFilters: [],
+    monthsFilter: [],
   });
 
   //Handle Filters
@@ -16,10 +17,9 @@ function BudgetStaffFilters({ data }) {
     let areaFilters = filters.areaFilters;
     let positionFilters = filters.positionFilters;
     let classingFilters = filters.classingFilters;
+    let monthsFilter = filters.monthsFilter;
     let target = f.target;
     let result;
-
-    // console.log(target.dataset.filter, target.checked);
 
     //Area Control
     if (target.dataset.filter === "areaControl") {
@@ -44,41 +44,55 @@ function BudgetStaffFilters({ data }) {
     }
 
     //Classing Control
-    if (target.dataset.filter === "classingControl"){
-        if (target.checked){
-            classingFilters.push(target.dataset.classing);
-        } else{
-            classingFilters = classingFilters.filter(
-                (value) => value != target.dataset.classing
-            )
-        }
+    if (target.dataset.filter === "classingControl") {
+      if (target.checked) {
+        classingFilters.push(target.dataset.classing);
+      } else {
+        classingFilters = classingFilters.filter(
+          (value) => value != target.dataset.classing
+        );
+      }
     }
-
-    //Monthly Control
+    
+    //Month Control
+    if (target.dataset.filter === "monthsFilter") {
+      if (target.checked) {
+        monthsFilter.push(target.dataset.month);
+      } else {
+        monthsFilter = monthsFilter.filter(
+          (value) => value != target.dataset.month
+        );
+      }
+    }
 
     //Set Filter List
     filterList = {
       areaFilters: areaFilters,
       positionFilters: positionFilters,
+      classingFilters: classingFilters,
+      monthsFilter: monthsFilter,
     };
     setFilters(filterList);
 
-    // if (areaFilters && areaFilters.length > 0) {
-    //     result = dataset.filter((value) => areaFilters.indexOf(value.area) != -1);
+    //Filter Logic
+    if (areaFilters && areaFilters.length > 0) {
+      result = dataset.filter((value) => areaFilters.indexOf(value.area) != -1);
+    }
+    if (positionFilters && positionFilters.length > 0){
+      result = dataset.filter(((value) => positionFilters.indexOf(value.position) != -1))
+    }
+    if (classingFilters && classingFilters.length > 0){
+      result = dataset.filter(((value) => classingFilters.indexOf(value.classing) != -1))
+    }
+
+
+    // if (monthsFilter && monthsFilter.length > 0){
+    //   result = dataset.filter(((value) =>  classingFilters.indexOf(Object.keys(value.workersneeded)) != -1))
     // }
 
-    // let filterList = {
-    //     areaFilters: areaFilters
-    // };
 
-    // console.log(result);
-    // setFilters(areaFilters);
-    // console.log(areaFilters);
-
-    //   console.log(e.target.parentElement)
+    console.log(result);
   };
-
-  //Find Match
 
   //Remove Duplicates
   let removeDuplicates = (arr) => {
@@ -96,6 +110,7 @@ function BudgetStaffFilters({ data }) {
 
     return areas;
   };
+
   //Get Classing
   let getClassing = (data) => {
     let classings = [];
@@ -106,6 +121,12 @@ function BudgetStaffFilters({ data }) {
     });
 
     return classings;
+  };
+
+  //Get Months
+  let getMonths = (data) => {
+    let months = Object.keys(data[0].workersneeded);
+    return months;
   };
 
   return (
@@ -168,7 +189,7 @@ function BudgetStaffFilters({ data }) {
               <li key={e}>
                 <p>{e}</p>
                 <input
-                  data-position={e}
+                  data-classing={e}
                   data-filter={"classingControl"}
                   type="checkbox"
                   onChange={(e) => filterControl(e)}
@@ -186,15 +207,19 @@ function BudgetStaffFilters({ data }) {
         </button>
 
         <ul className="filter-checkbox month-filter">
-          <li>
-            <p>MOA</p>
-            <input
-              data-area={"Asistente Contable"}
-              data-filter={"areaControl"}
-              type="checkbox"
-              onChange={(e) => filterControl(e)}
-            />
-          </li>
+          {getMonths(data).map((e) => {
+            return (
+              <li key={e}>
+                <p>{e}</p>
+                <input
+                  data-month={e}
+                  data-filter={"monthsFilter"}
+                  type="checkbox"
+                  onChange={(e) => filterControl(e)}
+                />
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
