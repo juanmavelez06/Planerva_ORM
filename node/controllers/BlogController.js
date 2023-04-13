@@ -26,7 +26,6 @@ export const getBlog = async (req, res) => {
 
 //Crear un Registro
 export const createBlog = async (req, res) => {
-  console.log(req.body)
   try {
     await BudgetModel.create(req.body); //Capturamos todo el cuerpo de datos.
     res.json({

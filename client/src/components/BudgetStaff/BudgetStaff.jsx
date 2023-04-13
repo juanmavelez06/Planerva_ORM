@@ -6,6 +6,7 @@ import BudgetAddStaff from "../BudgetAddStaff/BudgetAddStaff";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { FaMoneyBillWave } from "react-icons/fa";
 import AppReportBtn from "../AppReportBtn/AppReportBtn";
+import AppUploadFile from "../AppUploadFile/AppUploadFile";
 import { getStaffRequest } from "../../api/api.js";
 import dataTry from "../../data.example";
 import "./index.css";
@@ -17,6 +18,7 @@ function BudgetStaff() {
   const [budgetIncSalary, setBudgetIncSalary] = useState(0);
   const [addingData, setAddingData] = useState(false);
   const [edittingData, setEdittingData] = useState(false);
+  const [uploadFile, setUploadFile] = useState(false);
 
   useEffect(() => {
     getData();
@@ -28,7 +30,6 @@ function BudgetStaff() {
     try {
       let downloadData = await getStaffRequest();
       let downloadedData = await downloadData.data;
-      console.log(downloadData)
       downloadedData.forEach((e) => {
         if (typeof e.workersneeded === "string") {
           e.workersneeded = JSON.parse(e.workersneeded);
@@ -106,6 +107,8 @@ function BudgetStaff() {
           editData={edittingData}
           setEdittingData={setEdittingData}
         />
+      ) : uploadFile ? (
+        <AppUploadFile setUploadFile={setUploadFile}/>
       ) : (
         <div className="budgetStaff section">
           <BudgetStaffTable
@@ -113,6 +116,7 @@ function BudgetStaff() {
             getData={getData}
             setAddingData={setAddingData}
             editData={editData}
+            setUploadFile={setUploadFile}
           ></BudgetStaffTable>
           <div className="staff-cards-ctn">
             <BudgetCard

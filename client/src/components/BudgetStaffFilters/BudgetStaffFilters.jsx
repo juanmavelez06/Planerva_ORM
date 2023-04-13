@@ -12,86 +12,94 @@ function BudgetStaffFilters({ data }) {
 
   //Handle Filters
   let filterControl = (f) => {
-    let filterList;
-    let dataset = data;
-    let areaFilters = filters.areaFilters;
-    let positionFilters = filters.positionFilters;
-    let classingFilters = filters.classingFilters;
-    let monthsFilter = filters.monthsFilter;
-    let target = f.target;
-    let result;
+    try {
+      let filterList;
+      let dataset = data;
+      let areaFilters = filters.areaFilters;
+      let positionFilters = filters.positionFilters;
+      let classingFilters = filters.classingFilters;
+      let monthsFilter = filters.monthsFilter;
+      let target = f.target;
+      let result;
 
-    //Area Control
-    if (target.dataset.filter === "areaControl") {
-      if (target.checked) {
-        areaFilters.push(target.dataset.area);
-      } else {
-        areaFilters = areaFilters.filter(
-          (value) => value != target.dataset.area
+      //Area Control
+      if (target.dataset.filter === "areaControl") {
+        if (target.checked) {
+          areaFilters.push(target.dataset.area);
+        } else {
+          areaFilters = areaFilters.filter(
+            (value) => value != target.dataset.area
+          );
+        }
+      }
+
+      //Position Control
+      if (target.dataset.filter === "positionControl") {
+        if (target.checked) {
+          positionFilters.push(target.dataset.position);
+        } else {
+          positionFilters = positionFilters.filter(
+            (value) => value != target.dataset.position
+          );
+        }
+      }
+
+      //Classing Control
+      if (target.dataset.filter === "classingControl") {
+        if (target.checked) {
+          classingFilters.push(target.dataset.classing);
+        } else {
+          classingFilters = classingFilters.filter(
+            (value) => value != target.dataset.classing
+          );
+        }
+      }
+
+      //Month Control
+      if (target.dataset.filter === "monthsFilter") {
+        if (target.checked) {
+          monthsFilter.push(target.dataset.month);
+        } else {
+          monthsFilter = monthsFilter.filter(
+            (value) => value != target.dataset.month
+          );
+        }
+      }
+
+      //Set Filter List
+      filterList = {
+        areaFilters: areaFilters,
+        positionFilters: positionFilters,
+        classingFilters: classingFilters,
+        monthsFilter: monthsFilter,
+      };
+      setFilters(filterList);
+
+      //Filter Logic
+      if (areaFilters && areaFilters.length > 0) {
+        result = dataset.filter(
+          (value) => areaFilters.indexOf(value.area) != -1
         );
       }
-    }
-
-    //Position Control
-    if (target.dataset.filter === "positionControl") {
-      if (target.checked) {
-        positionFilters.push(target.dataset.position);
-      } else {
-        positionFilters = positionFilters.filter(
-          (value) => value != target.dataset.position
+      if (positionFilters && positionFilters.length > 0) {
+        result = dataset.filter(
+          (value) => positionFilters.indexOf(value.position) != -1
         );
       }
-    }
-
-    //Classing Control
-    if (target.dataset.filter === "classingControl") {
-      if (target.checked) {
-        classingFilters.push(target.dataset.classing);
-      } else {
-        classingFilters = classingFilters.filter(
-          (value) => value != target.dataset.classing
+      if (classingFilters && classingFilters.length > 0) {
+        result = dataset.filter(
+          (value) => classingFilters.indexOf(value.classing) != -1
         );
       }
+
+      // if (monthsFilter && monthsFilter.length > 0){
+      //   result = dataset.filter(((value) =>  classingFilters.indexOf(Object.keys(value.workersneeded)) != -1))
+      // }
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
     }
-    
-    //Month Control
-    if (target.dataset.filter === "monthsFilter") {
-      if (target.checked) {
-        monthsFilter.push(target.dataset.month);
-      } else {
-        monthsFilter = monthsFilter.filter(
-          (value) => value != target.dataset.month
-        );
-      }
-    }
-
-    //Set Filter List
-    filterList = {
-      areaFilters: areaFilters,
-      positionFilters: positionFilters,
-      classingFilters: classingFilters,
-      monthsFilter: monthsFilter,
-    };
-    setFilters(filterList);
-
-    //Filter Logic
-    if (areaFilters && areaFilters.length > 0) {
-      result = dataset.filter((value) => areaFilters.indexOf(value.area) != -1);
-    }
-    if (positionFilters && positionFilters.length > 0){
-      result = dataset.filter(((value) => positionFilters.indexOf(value.position) != -1))
-    }
-    if (classingFilters && classingFilters.length > 0){
-      result = dataset.filter(((value) => classingFilters.indexOf(value.classing) != -1))
-    }
-
-
-    // if (monthsFilter && monthsFilter.length > 0){
-    //   result = dataset.filter(((value) =>  classingFilters.indexOf(Object.keys(value.workersneeded)) != -1))
-    // }
-
-
-    console.log(result);
   };
 
   //Remove Duplicates
@@ -123,10 +131,14 @@ function BudgetStaffFilters({ data }) {
     return classings;
   };
 
-  //Get Months
+  // Get Months
   let getMonths = (data) => {
-    let months = Object.keys(data[0].workersneeded);
-    return months;
+    try {
+      let months = Object.keys(data[0].workersneeded);
+      return months;
+    } catch (error) {
+      console.log(months);
+    }
   };
 
   return (

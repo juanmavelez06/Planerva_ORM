@@ -12,10 +12,8 @@ const dbconection = db;
 const Budget = BudgetModel;
 
 router.post("/recibirDatos", async (req, res) => {
-  // todo Crear controladores para esta ruta
-
+  // * Crear Controladores para esta ruta
   try {
-
     // const data = req.body;
     const newData = [];
     const months = {
@@ -42,12 +40,8 @@ router.post("/recibirDatos", async (req, res) => {
       obj.workersneeded = workersneeded;
       newData.push(obj);
     }
-    const jsonString = JSON.stringify(newData);
-    // console.log(jsonString);
+    const jsonString = JSON.stringify(newData);    
     const jsonArray = JSON.parse(jsonString);
-    // console.log(jsonArray)
-
-    
 
     jsonArray .forEach((e) => {
 

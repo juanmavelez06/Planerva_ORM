@@ -2,7 +2,7 @@ from flask import Blueprint, request, Flask, jsonify
 from werkzeug.utils import secure_filename
 from respones.responses import emptyFile, processError, alreadyExists, extensionNotAllowed, responseOkJson, requestsError, sizeError, removeFile
 import pandas as pd
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import os
 import requests
 import json
@@ -11,16 +11,11 @@ import logging
 
 app = Flask(__name__)
 route = Blueprint('route', __name__)
-cors = CORS(app,resources={r"/upload": {"origins": "http://127.0.0.1:3000/recibirDatos"}})
-logging.info(cors)
-logs = []
-
+cors = CORS(app,resources={r"/upload": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 loggers = logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                               level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
-logs.append(loggers)
-
-print(logs)
 
 # *Extensiones permitidas
 EXTENSIONESPERMITIDAS = {'xlsx'}
@@ -32,8 +27,14 @@ if not os.path.exists(PATHFILE):
 
 app.config['UPLOAD_FOLDER'] = PATHFILE
 
+@route.after_request
+def add_cors_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
 
-# * Ruta receptora de archivos validación de extensiones
+# * Ruta receptora de archivos validación de extensiones 
 @route.route("/upload", methods=('GET', 'POST'))
 def upload():
     logging.info('Se recibio peticion')
