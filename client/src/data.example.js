@@ -4,9 +4,9 @@ const dataTry = [
         "area": "Producción",
         "position": "Lider de impresión",
         "classing": "MOA",
-        "account": 5112,
+        "account": 5105,
         "refsalary": 1200000,
-        "incsalary": 12,
+        "facperformance": 40,
         "auxtransport": 180000,
         "workersneeded": 
         {

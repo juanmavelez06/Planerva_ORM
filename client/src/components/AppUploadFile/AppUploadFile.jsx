@@ -83,7 +83,7 @@ function AppUploadFile({ updateFileData }) {
             // todo - No setear set upload file como false hasta que la promesa esté resuelta
             setTimeout(() => {
               updateFileData();
-            }, 500);
+            }, 1000);
           }}
         >
           Subir

@@ -13,9 +13,6 @@ import "./index.css";
 
 function BudgetStaff() {
   const [data, setData] = useState(dataTry);
-  const [staffMonthly, setStaffMonthly] = useState(0);
-  const [mainAccount, setMainAccount] = useState(0);
-  const [budgetIncSalary, setBudgetIncSalary] = useState(0);
   const [addingData, setAddingData] = useState(false);
   const [edittingData, setEdittingData] = useState(false);
   const [uploadFile, setUploadFile] = useState(false);
@@ -44,47 +41,53 @@ function BudgetStaff() {
   };
 
   let updateBudgetIndicators = (dataInput) => {
-    let staffNeededMonthly = 0;
-    let mainAcc;
-    let avgIncSalary;
-
-    dataInput.forEach((value) => {
-      //Calculate Average Workers Needed per Month
-      const positionNeededMonthly = Object.values(value.workersneeded).reduce(
-        (a, b) => a + b,
-        0
-      );
-      staffNeededMonthly += positionNeededMonthly;
-
-      //Calculate Account Most Repeated
-      const resultAcc = {};
-      resultAcc[value.account] = resultAcc[value.account] + 1 || 1;
-      mainAcc = Object.entries(resultAcc).sort((a, b) => {
-        if (a[1] > b[1]) {
-          return -1;
-        }
-        if (a[1] < b[1]) {
-          return 1;
-        }
-      })[0][0];
-
-      //Calculate Average Salary Increment
-      const resultIncSalary = {};
-      resultIncSalary[value.incsalary] =
-        resultIncSalary[value.incsalary] + 1 || 1;
-      avgIncSalary = Object.entries(resultIncSalary).sort((a, b) => {
-        if (a[1] > b[1]) {
-          return -1;
-        }
-        if (a[1] < b[1]) {
-          return 1;
-        }
-      })[0][0];
-    });
-
-    setStaffMonthly(staffNeededMonthly);
-    setMainAccount(mainAcc);
-    setBudgetIncSalary(avgIncSalary);
+    try {
+      let result = {};
+      let staffNeededMonthly = 0;
+      let mainAcc;
+      let avgIncSalary = 12
+  
+      dataInput.forEach((value) => {
+        //Calculate Average Workers Needed per Month
+        const positionNeededMonthly = Object.values(value.workersneeded).reduce(
+          (a, b) => a + b,
+          0
+        );
+        staffNeededMonthly += positionNeededMonthly;
+  
+        //Calculate Account Most Repeated
+        const resultAcc = {};
+        resultAcc[value.account] = resultAcc[value.account] + 1 || 1;
+        mainAcc = Object.entries(resultAcc).sort((a, b) => {
+          if (a[1] > b[1]) {
+            return -1;
+          }
+          if (a[1] < b[1]) {
+            return 1;
+          }
+        })[0][0];
+  
+        // //Calculate Average Salary Increment
+        // const resultIncSalary = {};
+        // resultIncSalary[value.incsalary] =
+        //   resultIncSalary[value.incsalary] + 1 || 1;
+        // avgIncSalary = Object.entries(resultIncSalary).sort((a, b) => {
+        //   if (a[1] > b[1]) {
+        //     return -1;
+        //   }
+        //   if (a[1] < b[1]) {
+        //     return 1;
+        //   }
+        // })[0][0];
+      });
+  
+      result.staffNeededMonthly = staffNeededMonthly;
+      result.mainAcc = mainAcc;
+      result.incSalary = avgIncSalary;
+      return(result)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   let submitData = () => {
@@ -128,18 +131,18 @@ function BudgetStaff() {
               Icon={AiOutlineUserSwitch}
               title={"Personal Necesitado"}
               legend={"Promedio"}
-              data={staffMonthly}
+              data={updateBudgetIndicators(data).staffNeededMonthly}
             />
             <BudgetCard
               Icon={FaMoneyBillWave}
               title={"Cuenta Contable"}
               legend={"Promedio"}
-              data={mainAccount}
+              data={updateBudgetIndicators(data).mainAcc}
             />
             <BudgetCard
               Icon={AiOutlineUserSwitch}
               title={"Incremento Salarial"}
-              data={`${budgetIncSalary} %`}
+              data={`${updateBudgetIndicators(data).incSalary} %`}
             />
           </div>
 
