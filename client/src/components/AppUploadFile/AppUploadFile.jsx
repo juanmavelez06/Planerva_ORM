@@ -3,7 +3,8 @@ import "./index.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { AiFillFileWord } from "react-icons/ai";
-import pruebaImg from "../AppUploadFile/assets/Archivos.png";
+import {HiDocumentDuplicate} from "react-icons/hi"
+
 
 function AppUploadFile({ updateFileData }) {
   const [File, setFile] = useState(null);
@@ -75,14 +76,12 @@ function AppUploadFile({ updateFileData }) {
   };
 
   return (
-    <div>
-
+    <React.Fragment>
       <div className="container_all">
-
         <button className="contect_file">
           <AiFillFileWord className="icon" size={20} />
           Subir archivo
-          <label for="btn_file"></label>
+          <label htmlFor="btn_file"></label>
           <input
             type="file"
             id="btn_file"
@@ -105,7 +104,7 @@ function AppUploadFile({ updateFileData }) {
               // todo - No setear set upload file como false hasta que la promesa esté resuelta
               setTimeout(() => {
                 updateFileData();
-              }, 500);
+              }, 1200);
             }}
           >
             Subir
@@ -114,15 +113,13 @@ function AppUploadFile({ updateFileData }) {
           <button className="cancel" onClick={updateFileData}>
             Regresar
           </button>
-          
         </div>
       </div>
 
-      <div className="contentc_img">
-        <img src={pruebaImg} className="img_optional" alt="" />
+      <div className="content_img">
+        <HiDocumentDuplicate className="img_optimal"/>
       </div>
-
-    </div>
+    </React.Fragment>
   );
 }
 

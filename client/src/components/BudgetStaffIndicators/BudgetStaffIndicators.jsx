@@ -7,9 +7,6 @@ import BudgetStaffFilters from "../BudgetStaffFilters/BudgetStaffFilters";
 import "./index.css";
 
 function BudgetStaffIndicators({ data }) {
-  //State Control
-  useEffect(() => {}, []);
-
   //Get Staff Needed Data
   const getStaffChartData = (dataParsed) => {
     try {

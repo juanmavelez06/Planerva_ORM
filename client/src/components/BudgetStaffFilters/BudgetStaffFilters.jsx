@@ -20,7 +20,7 @@ function BudgetStaffFilters({ data }) {
       let classingFilters = filters.classingFilters;
       let monthsFilter = filters.monthsFilter;
       let target = f.target;
-      let result;
+      let filterResult = [];
 
       //Area Control
       if (target.dataset.filter === "areaControl") {
@@ -76,27 +76,129 @@ function BudgetStaffFilters({ data }) {
       setFilters(filterList);
 
       //Filter Logic
-      if (areaFilters && areaFilters.length > 0) {
-        result = dataset.filter(
+      let isAreaFilter = areaFilters && areaFilters.length > 0 ? true : false; // * - Is Area being filtered?
+      let isPositionFilter = positionFilters && positionFilters.length > 0 ? true : false; // * - Is position being filtered
+      let isClassingFilter = classingFilters && classingFilters.length > 0 ? true : false // * - Is classing being filtered
+      let isMonthsFilter =  monthsFilter && monthsFilter.length > 0 ? true : false // * - Is months being filtered
+
+      console.log(isAreaFilter, isPositionFilter, isClassingFilter, isMonthsFilter);  
+
+
+      //Intentar arrastrar condicionales
+      if (isAreaFilter){
+        dataset = dataset.filter(
           (value) => areaFilters.indexOf(value.area) != -1
-        );
+        )
       }
-      if (positionFilters && positionFilters.length > 0) {
-        result = dataset.filter(
+      if (isPositionFilter){
+        dataset = dataset.filter(
           (value) => positionFilters.indexOf(value.position) != -1
-        );
+        )
       }
-      if (classingFilters && classingFilters.length > 0) {
-        result = dataset.filter(
-          (value) => classingFilters.indexOf(value.classing) != -1
-        );
+      if (isClassingFilter){
+        dataset = dataset.filter(
+          (value) =>  classingFilters.indexOf(value.classing) != -1
+        )
       }
 
-      // if (monthsFilter && monthsFilter.length > 0){
-      //   result = dataset.filter(((value) =>  classingFilters.indexOf(Object.keys(value.workersneeded)) != -1))
+      // if (isClassingFilter)
+
+      // if (isMonthsFilter)
+
+      console.log(dataset)
+
+      // //Area Logic
+      // if (isAreaFilter && !isPositionFilter && !isClassingFilter && !isMonthsFilter) { 
+      //   filterResult = dataset.filter(
+      //     (value) => areaFilters.indexOf(value.area) != -1
+      //   );
       // }
 
-      console.log(result);
+      // if (isAreaFilter && isPositionFilter && !isClassingFilter && !isMonthsFilter) {
+      //   filterResult = dataset.filter(
+      //     (value) => areaFilters.indexOf(value.area) != -1 && positionFilters.indexOf(value.position) != -1
+      //   )
+      // }
+
+      // if(isAreaFilter && !isPositionFilter && isClassingFilter && !isMonthsFilter){
+
+      // }
+
+      // if (isAreaFilter && isPositionFilter && isClassingFilter && !isMonthsFilter){
+      //   filterResult = dataset.filter(
+      //     (value) =>  areaFilters.indexOf(value.area) != -1 && positionFilters.indexOf(value.position) != -1 && classingFilters.indexOf(value.classing) != -1
+      //   )
+      // }
+
+      // //Position Logic
+      // if (!isAreaFilter && isPositionFilter && !isClassingFilter && !isMonthsFilter) {
+      //   filterResult = dataset.filter(
+      //     (value) => positionFilters.indexOf(value.position) != -1
+      //   );
+      // }
+      // if(!isAreaFilter && isPositionFilter && isClassingFilter && !isMonthsFilter) {
+      //   filterResult = dataset.filter(
+      //     (value) => positionFilters.indexOf(value.position) != -1 && classingFilters.indexOf(value.classing) != -1
+      //   )
+      // }
+
+
+      //Diagrama de flujo
+      //000
+      //100 
+      //110
+      //111
+      //101
+      //010
+      //011
+    
+
+
+
+
+
+      
+      // if (isPositionFilter) {
+        
+      // }
+      // if (isClassingFilter) {
+      //   filterResult = dataset.filter(
+      //     (value) => classingFilters.indexOf(value.classing) != -1
+      //   );
+      // }
+
+      // if (isMonthsFilter) {
+      //   dataset.map((element) => {
+      //     let workersFiltered = {};
+
+      //     Object.entries(element.workersneeded).forEach((e) => {
+      //       let monthName = e[0];
+      //       if (monthsFilter.indexOf(e[0]) != -1) {
+      //         workersFiltered[monthName] = e[1];
+      //       } else {
+      //         workersFiltered[monthName] = 0;
+      //       }
+      //     });
+
+      //     let newElement = {
+      //       id: element.id,
+      //       area: element.area,
+      //       position: element.position,
+      //       classing: element.classing,
+      //       account: element.account,
+      //       refsalary: element.refsalary,
+      //       facperformance: element.facperformance,
+      //       workersneeded: workersFiltered,
+      //       createdAt: element.createdAt,
+      //       updatedAt: element.updatedAt,
+      //     };
+
+      //     filterResult.push(newElement);
+      //   });
+      // }
+
+      // console.log(filterResult);
+      
     } catch (error) {
       console.log(error);
     }
@@ -134,16 +236,34 @@ function BudgetStaffFilters({ data }) {
   // Get Months
   let getMonths = (data) => {
     try {
-      let months = Object.keys(data[0].workersneeded);
+      let months;
+      if (!data || data.length < 1) {
+        months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+      } else {
+        months = Object.keys(data[0].workersneeded);
+      }
       return months;
-    } catch (error) {
-      console.log(months);
-    }
+    } catch (error) {}
   };
+
+  //Month Filters
+  let filterMonths = (monthsData) => {};
 
   return (
     <div className="staff-filters">
-      {/* {console.log(filters)} */}
       {/* Area Selector */}
       <div className="areaSelector">
         <button className="filter">
