@@ -6,7 +6,7 @@ import BudgetTable from "../BudgetTable/BudgetTable";
 import BudgetStaffFilters from "../BudgetStaffFilters/BudgetStaffFilters";
 import "./index.css";
 
-function BudgetStaffIndicators({ data }) {
+function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
   //Get Staff Needed Data
   const getStaffChartData = (dataParsed) => {
     try {
@@ -267,7 +267,7 @@ function BudgetStaffIndicators({ data }) {
           <h3>Personal</h3>
         </div>
 
-        <BudgetStaffFilters data={data} filteredData={""} />
+        <BudgetStaffFilters data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} />
       </div>
 
       <div className="charts-ctn">
@@ -314,7 +314,7 @@ function BudgetStaffIndicators({ data }) {
             <p>Auxilio de Transporte</p> <BiLineChart />
           </div>
           <span>(Total)</span>
-
+          
           <div className="data">
             <p>
               {getCostTransportData(data).toLocaleString()} <span>COP</span>

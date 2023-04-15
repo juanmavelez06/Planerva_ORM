@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import "./index.css";
 
-function BudgetStaffFilters({ data }) {
+function BudgetStaffFilters({ data, dataFiltered, setDataFiltered }) {
   const [filters, setFilters] = useState({
     areaFilters: [],
     positionFilters: [],
@@ -77,128 +77,72 @@ function BudgetStaffFilters({ data }) {
 
       //Filter Logic
       let isAreaFilter = areaFilters && areaFilters.length > 0 ? true : false; // * - Is Area being filtered?
-      let isPositionFilter = positionFilters && positionFilters.length > 0 ? true : false; // * - Is position being filtered
-      let isClassingFilter = classingFilters && classingFilters.length > 0 ? true : false // * - Is classing being filtered
-      let isMonthsFilter =  monthsFilter && monthsFilter.length > 0 ? true : false // * - Is months being filtered
+      let isPositionFilter =
+        positionFilters && positionFilters.length > 0 ? true : false; // * - Is position being filtered
+      let isClassingFilter =
+        classingFilters && classingFilters.length > 0 ? true : false; // * - Is classing being filtered
+      let isMonthsFilter =
+        monthsFilter && monthsFilter.length > 0 ? true : false; // * - Is months being filtered
 
-      console.log(isAreaFilter, isPositionFilter, isClassingFilter, isMonthsFilter);  
-
+      // console.log(
+      //   isAreaFilter,
+      //   isPositionFilter,
+      //   isClassingFilter,
+      //   isMonthsFilter
+      // );
 
       //Intentar arrastrar condicionales
-      if (isAreaFilter){
+      if (isAreaFilter) {
         dataset = dataset.filter(
           (value) => areaFilters.indexOf(value.area) != -1
-        )
+        );
       }
-      if (isPositionFilter){
+      if (isPositionFilter) {
         dataset = dataset.filter(
           (value) => positionFilters.indexOf(value.position) != -1
-        )
+        );
       }
-      if (isClassingFilter){
+      if (isClassingFilter) {
         dataset = dataset.filter(
-          (value) =>  classingFilters.indexOf(value.classing) != -1
-        )
+          (value) => classingFilters.indexOf(value.classing) != -1
+        );
       }
 
-      // if (isClassingFilter)
+      if (isMonthsFilter) {
+        dataset.map((element) => {
+          let workersFiltered = {};
 
-      // if (isMonthsFilter)
+          Object.entries(element.workersneeded).forEach((e) => {
+            let monthName = e[0];
+            if (monthsFilter.indexOf(e[0]) != -1) {
+              workersFiltered[monthName] = e[1];
+            } else {
+              workersFiltered[monthName] = 0;
+            }
+          });
 
-      console.log(dataset)
+          let newElement = {
+            id: element.id,
+            area: element.area,
+            position: element.position,
+            classing: element.classing,
+            account: element.account,
+            refsalary: element.refsalary,
+            facperformance: element.facperformance,
+            workersneeded: workersFiltered,
+            createdAt: element.createdAt,
+            updatedAt: element.updatedAt,
+          };
 
-      // //Area Logic
-      // if (isAreaFilter && !isPositionFilter && !isClassingFilter && !isMonthsFilter) { 
-      //   filterResult = dataset.filter(
-      //     (value) => areaFilters.indexOf(value.area) != -1
-      //   );
-      // }
+          filterResult.push(newElement);
+        });
 
-      // if (isAreaFilter && isPositionFilter && !isClassingFilter && !isMonthsFilter) {
-      //   filterResult = dataset.filter(
-      //     (value) => areaFilters.indexOf(value.area) != -1 && positionFilters.indexOf(value.position) != -1
-      //   )
-      // }
+        dataset = [];
+        dataset = filterResult;
+      }
 
-      // if(isAreaFilter && !isPositionFilter && isClassingFilter && !isMonthsFilter){
-
-      // }
-
-      // if (isAreaFilter && isPositionFilter && isClassingFilter && !isMonthsFilter){
-      //   filterResult = dataset.filter(
-      //     (value) =>  areaFilters.indexOf(value.area) != -1 && positionFilters.indexOf(value.position) != -1 && classingFilters.indexOf(value.classing) != -1
-      //   )
-      // }
-
-      // //Position Logic
-      // if (!isAreaFilter && isPositionFilter && !isClassingFilter && !isMonthsFilter) {
-      //   filterResult = dataset.filter(
-      //     (value) => positionFilters.indexOf(value.position) != -1
-      //   );
-      // }
-      // if(!isAreaFilter && isPositionFilter && isClassingFilter && !isMonthsFilter) {
-      //   filterResult = dataset.filter(
-      //     (value) => positionFilters.indexOf(value.position) != -1 && classingFilters.indexOf(value.classing) != -1
-      //   )
-      // }
-
-
-      //Diagrama de flujo
-      //000
-      //100 
-      //110
-      //111
-      //101
-      //010
-      //011
-    
-
-
-
-
-
-      
-      // if (isPositionFilter) {
-        
-      // }
-      // if (isClassingFilter) {
-      //   filterResult = dataset.filter(
-      //     (value) => classingFilters.indexOf(value.classing) != -1
-      //   );
-      // }
-
-      // if (isMonthsFilter) {
-      //   dataset.map((element) => {
-      //     let workersFiltered = {};
-
-      //     Object.entries(element.workersneeded).forEach((e) => {
-      //       let monthName = e[0];
-      //       if (monthsFilter.indexOf(e[0]) != -1) {
-      //         workersFiltered[monthName] = e[1];
-      //       } else {
-      //         workersFiltered[monthName] = 0;
-      //       }
-      //     });
-
-      //     let newElement = {
-      //       id: element.id,
-      //       area: element.area,
-      //       position: element.position,
-      //       classing: element.classing,
-      //       account: element.account,
-      //       refsalary: element.refsalary,
-      //       facperformance: element.facperformance,
-      //       workersneeded: workersFiltered,
-      //       createdAt: element.createdAt,
-      //       updatedAt: element.updatedAt,
-      //     };
-
-      //     filterResult.push(newElement);
-      //   });
-      // }
-
-      // console.log(filterResult);
-      
+      setDataFiltered(dataset);
+      console.log(dataset);
     } catch (error) {
       console.log(error);
     }
@@ -258,9 +202,6 @@ function BudgetStaffFilters({ data }) {
       return months;
     } catch (error) {}
   };
-
-  //Month Filters
-  let filterMonths = (monthsData) => {};
 
   return (
     <div className="staff-filters">

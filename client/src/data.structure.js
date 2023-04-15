@@ -1,13 +1,13 @@
 const dataTry = [
     {
-        "id": 1,
-        "area": "Producción",
-        "position": "Lider de impresión",
-        "classing": "MOA",
-        "account": 5105,
-        "refsalary": 1200000,
-        "facperformance": 40,
-        "auxtransport": 180000,
+        "id": 0,
+        "area": "Área",
+        "position": "Posición",
+        "classing": "Clasificación",
+        "account": 1111,
+        "refsalary": 1111111,
+        "facperformance": 11,
+        "auxtransport": 111111,
         "workersneeded": 
         {
             "January": 1,

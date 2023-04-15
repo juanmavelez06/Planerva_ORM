@@ -8,11 +8,12 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import AppReportBtn from "../AppReportBtn/AppReportBtn";
 import AppUploadFile from "../AppUploadFile/AppUploadFile";
 import { getStaffRequest } from "../../api/api.js";
-import dataTry from "../../data.example";
+import dataStructure from "../../data.structure";
 import "./index.css";
 
 function BudgetStaff() {
-  const [data, setData] = useState(dataTry);
+  const [data, setData] = useState(dataStructure);
+  const [dataFiltered, setDataFiltered] = useState([]);
   const [addingData, setAddingData] = useState(false);
   const [edittingData, setEdittingData] = useState(false);
   const [uploadFile, setUploadFile] = useState(false);
@@ -147,7 +148,7 @@ function BudgetStaff() {
           </div>
 
           <div className="staff-indicators section">
-            <BudgetStaffIndicators data={data} setData={setData} />
+            <BudgetStaffIndicators data={data} setData={setData} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} />
           </div>
           <AppReportBtn />
         </div>
