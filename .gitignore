@@ -29,6 +29,7 @@ keys.js
 
 #microservice
 __pycache__
+files
 
 #binaries
 *.png
