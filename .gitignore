@@ -33,3 +33,4 @@ files
 
 #binaries
 *.png
+cloudformation/instance.yaml

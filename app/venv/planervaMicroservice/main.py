@@ -9,4 +9,4 @@ app.register_blueprint(error)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='54.211.106.35')
