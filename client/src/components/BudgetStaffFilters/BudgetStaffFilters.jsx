@@ -140,9 +140,7 @@ function BudgetStaffFilters({ data, dataFiltered, setDataFiltered }) {
         dataset = [];
         dataset = filterResult;
       }
-
       setDataFiltered(dataset);
-      console.log(dataset);
     } catch (error) {
       console.log(error);
     }

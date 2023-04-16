@@ -36,6 +36,7 @@ function BudgetStaff() {
         }
       });
       setData(downloadedData);
+      setDataFiltered(downloadedData);
     } catch (error) {
       console.log(error);
     }
@@ -44,50 +45,31 @@ function BudgetStaff() {
   let updateBudgetIndicators = (dataInput) => {
     try {
       let result = {};
-      let staffNeededMonthly = 0;
-      let mainAcc;
-      let avgIncSalary = 12
-  
+      let staffNeededMonthly = 0; //Staff Needed Monthly
+      let minSalaryIncrement = 12; // Minimun Salary Anual Increment
+      let avgPerformanceFactor = 0; // Average Performance factor
+
       dataInput.forEach((value) => {
-        //Calculate Average Workers Needed per Month
+        //Calculate Total Staff Needed per Month
         const positionNeededMonthly = Object.values(value.workersneeded).reduce(
           (a, b) => a + b,
           0
         );
         staffNeededMonthly += positionNeededMonthly;
-  
-        //Calculate Account Most Repeated
-        const resultAcc = {};
-        resultAcc[value.account] = resultAcc[value.account] + 1 || 1;
-        mainAcc = Object.entries(resultAcc).sort((a, b) => {
-          if (a[1] > b[1]) {
-            return -1;
-          }
-          if (a[1] < b[1]) {
-            return 1;
-          }
-        })[0][0];
-  
-        // //Calculate Average Salary Increment
-        // const resultIncSalary = {};
-        // resultIncSalary[value.incsalary] =
-        //   resultIncSalary[value.incsalary] + 1 || 1;
-        // avgIncSalary = Object.entries(resultIncSalary).sort((a, b) => {
-        //   if (a[1] > b[1]) {
-        //     return -1;
-        //   }
-        //   if (a[1] < b[1]) {
-        //     return 1;
-        //   }
-        // })[0][0];
+
+        //Calculate Average Performance Factor
+        avgPerformanceFactor += value.facperformance;
       });
-  
+
+      avgPerformanceFactor =
+        Math.round(avgPerformanceFactor / (dataInput.length > 0 ? dataInput.length : 1));
+
       result.staffNeededMonthly = staffNeededMonthly;
-      result.mainAcc = mainAcc;
-      result.incSalary = avgIncSalary;
-      return(result)
+      result.avgPerformanceFactor = avgPerformanceFactor;
+      result.incSalary = minSalaryIncrement;
+      return result;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -104,8 +86,8 @@ function BudgetStaff() {
 
   let updateFileData = (e) => {
     setUploadFile(false);
-    getData()
-  }
+    getData();
+  };
 
   return (
     <React.Fragment>
@@ -117,7 +99,7 @@ function BudgetStaff() {
           setEdittingData={setEdittingData}
         />
       ) : uploadFile ? (
-        <AppUploadFile updateFileData={updateFileData}/>
+        <AppUploadFile updateFileData={updateFileData} />
       ) : (
         <div className="budgetStaff section">
           <BudgetStaffTable
@@ -131,24 +113,29 @@ function BudgetStaff() {
             <BudgetCard
               Icon={AiOutlineUserSwitch}
               title={"Personal Necesitado"}
-              legend={"Promedio"}
-              data={updateBudgetIndicators(data).staffNeededMonthly}
+              legend={"Total"}
+              data={updateBudgetIndicators(dataFiltered).staffNeededMonthly}
             />
             <BudgetCard
               Icon={FaMoneyBillWave}
-              title={"Cuenta Contable"}
+              title={"Factor Prestacional"}
               legend={"Promedio"}
-              data={updateBudgetIndicators(data).mainAcc}
+              data={updateBudgetIndicators(dataFiltered).avgPerformanceFactor}
             />
             <BudgetCard
               Icon={AiOutlineUserSwitch}
-              title={"Incremento Salarial"}
-              data={`${updateBudgetIndicators(data).incSalary} %`}
+              title={"Incremento Salario Mínimo"}
+              data={`${updateBudgetIndicators(dataFiltered).incSalary} %`}
             />
           </div>
 
           <div className="staff-indicators section">
-            <BudgetStaffIndicators data={data} setData={setData} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} />
+            <BudgetStaffIndicators
+              data={data}
+              setData={setData}
+              dataFiltered={dataFiltered}
+              setDataFiltered={setDataFiltered}
+            />
           </div>
           <AppReportBtn />
         </div>

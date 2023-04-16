@@ -215,6 +215,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
             auxTransport;
         }
       });
+
       return result;
     } catch (error) {
       console.log(error);
@@ -230,8 +231,16 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
         { field: "position", headerName: "Cargo", width: 140 },
         { field: "staffNumber", headerName: "Personal Requerido", width: 125 },
         { field: "refsalary", headerName: "Referencia Salarial", width: 125 },
-        { field: "facperformance", headerName: "Factor Prestacional", width: 125},
-        {field: "salaryPlusPerformance", headerName: "Salario + Factor Prestacional", width: 150}
+        {
+          field: "facperformance",
+          headerName: "Factor Prestacional",
+          width: 125,
+        },
+        {
+          field: "salaryPlusPerformance",
+          headerName: "Salario + Factor Prestacional",
+          width: 150,
+        },
       ];
       let dataset = {};
       let rows = [];
@@ -241,13 +250,15 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
         row.id = e.id;
         row.area = e.area;
         row.position = e.position;
-        row.refsalary = `${(e.refsalary).toLocaleString()} COP`;
+        row.refsalary = `${e.refsalary.toLocaleString()} COP`;
         row.facperformance = `${e.facperformance}%`;
         row.staffNumber = Object.values(e.workersneeded).reduce(
           (a, b) => a + b,
           0
         );
-        row.salaryPlusPerformance = `${(e.refsalary + Math.round(e.refsalary * (e.facperformance / 100))).toLocaleString()} COP`;
+        row.salaryPlusPerformance = `${(
+          e.refsalary + Math.round(e.refsalary * (e.facperformance / 100))
+        ).toLocaleString()} COP`;
         rows.push(row);
       });
 
@@ -267,21 +278,25 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
           <h3>Personal</h3>
         </div>
 
-        <BudgetStaffFilters data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} />
+        <BudgetStaffFilters
+          data={data}
+          dataFiltered={dataFiltered}
+          setDataFiltered={setDataFiltered}
+        />
       </div>
 
       <div className="charts-ctn">
         <BudgetLineChart
           title={"Requerimiento de Personal"}
-          data={getStaffChartData(data)}
+          data={getStaffChartData(dataFiltered)}
         />
         <BudgetLineChart
           title={"Gasto Salario"}
-          data={getCostData(data)}
-          data2={getIncSalaryData(data)}
+          data={getCostData(dataFiltered)}
+          data2={getIncSalaryData(dataFiltered)}
           duaLine={true}
         />
-        <BudgetTable dataset={getStaffTableInfo(data)} />
+        <BudgetTable dataset={getStaffTableInfo(dataFiltered)} />
       </div>
 
       <BudgetTripleCard>
@@ -293,7 +308,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
 
           <div className="data">
             <p>
-              {getCostData(data).avgSalaryCostMonthly} <span>COP</span>
+              {getCostData(dataFiltered).avgSalaryCostMonthly} <span>COP</span>
             </p>
           </div>
         </div>
@@ -305,7 +320,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
 
           <div className="data">
             <p>
-              {getCostData(data).totalSalaryCost} <span>COP</span>
+              {getCostData(dataFiltered).totalSalaryCost} <span>COP</span>
             </p>
           </div>
         </div>
@@ -314,10 +329,10 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
             <p>Auxilio de Transporte</p> <BiLineChart />
           </div>
           <span>(Total)</span>
-          
           <div className="data">
             <p>
-              {getCostTransportData(data).toLocaleString()} <span>COP</span>
+              {getCostTransportData(dataFiltered).toLocaleString()}{" "}
+              <span>COP</span>
             </p>
           </div>
         </div>
