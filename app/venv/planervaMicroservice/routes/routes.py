@@ -66,7 +66,7 @@ def upload():
    # print(data)
     try:
         if data:
-            url = "http://127.0.0.1:3000/recibirDatos"
+            url = "http://127.0.0.1:3001/recibirDatos"
             headers = {'Content-Type': 'application/json'}
             response = requests.post(url, data=jsonData, headers=headers)
             logging.info(response.status_code)

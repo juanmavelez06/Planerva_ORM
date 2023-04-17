@@ -58,7 +58,7 @@ function AppUploadFile({ updateFileData }) {
 
     // todo - Hacer Control de Promesas
     axios
-      .post("http://localhost:5000/upload", formData, {
+      .post(`${import.meta.env.VITE_MICROSERVICE_URL}/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
 
