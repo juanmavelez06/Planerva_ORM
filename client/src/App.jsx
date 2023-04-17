@@ -9,7 +9,7 @@ import "./App.css";
 
 function App() {
   return (
-    <React.Fragment>
+    <React.Fragment>  
       <div className="app-ctn">
         <Routes>
           <Route path="/" element={<LandingPage />} />
