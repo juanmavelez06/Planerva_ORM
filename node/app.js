@@ -4,13 +4,12 @@ import cors from "cors";
 import db from "./database/db.js";
 import blogRoutes from "./routes/routes.js";
 import microservice from "./routes/microservices.routes.js";
+import { PORT } from "./config.js"
 
 //Initialize App
 const app = express();
 
 //Seetings
-const port = 3000;
-
 app.use(cors());
 app.use(express.json());
 
@@ -31,6 +30,6 @@ try {
 }
 
 //Listen Port
-app.listen(port, () => {
-  console.log(`Servidor corriendo en el puerto ${port}`);
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

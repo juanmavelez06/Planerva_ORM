@@ -17,4 +17,5 @@ router.put("/staff/edit/:id", updateBlog);
 router.delete("/staff/delete/:id", deleteBlog);  
 //router.get("/:id", getBlog); //Esto pasa cuando tipiemos la ruta "ID" y me traiga un Dato en particular
 
+
 export default router;

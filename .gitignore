@@ -25,6 +25,7 @@ dist-ssr
 *.sw?
 
 #Keys
+.env
 keys.js
 
 #microservice

@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize"
-import dbkeys from "./keys.js";
+import { DB_DATABASE,  DB_HOST, DB_PASSWORD, DB_USERNAME } from "../config.js";
 
-//Nombre de la base de datos, el usuario y la password
-const db = new Sequelize(dbkeys.database , dbkeys.user , dbkeys.password, {
-    host:'localhost',
+//Database connection
+const db = new Sequelize(DB_DATABASE , DB_USERNAME , DB_PASSWORD, {
+    host: DB_HOST,
     dialect: 'mysql',
     logging: false
 })
