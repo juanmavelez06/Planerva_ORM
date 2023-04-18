@@ -10,7 +10,7 @@ CREATE TABLE budgetpersonals (
     classing VARCHAR(50) NOT NULL,
     account INT(20) NOT NULL,
     refsalary INT(50) NOT NULL,
-    facperformance INT(10) NOT NULL, --!Reemplazo auxilio transporte
+    facperformance INT(10) NOT NULL, 
     workersneeded VARCHAR(255) NOT NULL,
     createdAt datetime NOT NULL,
     updatedAt datetime NOT NULL,
