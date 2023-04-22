@@ -95,7 +95,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
 
       // * Average Salary Cost Monthly
       let avgSalaryCostMonthly = Math.round(
-        totalSalaryCost / parsedBaseValues.length
+        totalSalaryCost / getMonthAverage(parsedBaseValues)
       );
 
       result.label = "Costo Salario Mensual";
@@ -111,7 +111,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
   };
 
   //Salary + "Factor Prestacional"
-  const getIncSalaryData = (dataParsed) => {
+  const getFacPerformanceData = (dataParsed) => {
     try {
       let result = {};
       let base = {
@@ -192,9 +192,18 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
         );
       });
 
+      //Get Total Salary with Fac Performance Included
+      let totalSalaryPlusFacPerformance = Object.values(base).reduce(
+        (a, b) => a + b,
+        0
+      );
+
+      // Results
       result.label = " Salario + Factor Prestacional";
       result.labels = Object.keys(base);
       result.data = Object.values(base);
+      result.totalSalaryPlusFacPerformance =
+        totalSalaryPlusFacPerformance.toLocaleString();
       return result;
     } catch (error) {
       console.log(error);
@@ -202,7 +211,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
   };
 
   //Get Transport Aux Cost per Month
-  const getCostTransportData = (dataParsed) => {
+  let getCostTransportData = (dataParsed) => {
     try {
       const minSalary = 1300606; //$1.300.606 COP
       const auxTransport = 118000; //$118.000 COP
@@ -252,9 +261,9 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
         row.position = e.position;
         row.refsalary = `${e.refsalary.toLocaleString()} COP`;
         row.facperformance = `${e.facperformance}%`;
-        row.staffNumber = Object.values(e.workersneeded).reduce(
-          (a, b) => a + b,
-          0
+        row.staffNumber = Math.ceil(
+          Object.values(e.workersneeded).reduce((a, b) => a + b, 0) /
+            getMonthAverage(Object.values(e.workersneeded))
         );
         row.salaryPlusPerformance = `${(
           e.refsalary + Math.round(e.refsalary * (e.facperformance / 100))
@@ -268,6 +277,13 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //Increment value if month is not filtered
+  let getMonthAverage = (a) => {
+    let i = 0;
+    a.map((e) => (e > 0 ? i++ : i));
+    return i;
   };
 
   return (
@@ -293,7 +309,7 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
         <BudgetLineChart
           title={"Gasto Salario"}
           data={getCostData(dataFiltered)}
-          data2={getIncSalaryData(dataFiltered)}
+          data2={getFacPerformanceData(dataFiltered)}
           duaLine={true}
         />
         <BudgetTable dataset={getStaffTableInfo(dataFiltered)} />
@@ -326,12 +342,15 @@ function BudgetStaffIndicators({ data, dataFiltered, setDataFiltered }) {
         </div>
         <div className="indicator">
           <div className="indicator-title">
-            <p>Auxilio de Transporte</p> <BiLineChart />
+            <p>Salario Total</p> <BiLineChart />
           </div>
-          <span>(Total)</span>
+          <span>+ factor prestacional</span>
           <div className="data">
             <p>
-              {getCostTransportData(dataFiltered).toLocaleString()}{" "}
+              {
+                getFacPerformanceData(dataFiltered)
+                  .totalSalaryPlusFacPerformance
+              }{" "}
               <span>COP</span>
             </p>
           </div>

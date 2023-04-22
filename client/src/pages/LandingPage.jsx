@@ -22,14 +22,14 @@ function LandingPage() {
       <AppHeader sectionName={"Next Level Accounting"}></AppHeader>
 
       <AppModules>
-        <AppModuleCard link={"/budget"} Icon={AiFillPieChart} moduleName={"Budget"}/>
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
-        <AppModuleCard Icon={AiFillPieChart} moduleName={"Budget"} />
+        <AppModuleCard link={"/budget"} Icon={AiFillPieChart} moduleName={"Presupuesto"}/>
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
+        <AppModuleCard Icon={AiFillPieChart} moduleName={"Presupuesto"} />
       </AppModules>
     </React.Fragment>
   )

@@ -40,8 +40,8 @@ function BudgetStaffTable({
       <div className="table-titles">
         <div>
           <h4>X</h4>
+          <h4>Área</h4>
           <h4>Cargo</h4>
-          <h4>Area</h4>
           <h4 className="text-center">Clasificación</h4>
           <h4 className="text-center">Cuenta</h4>
         </div>
