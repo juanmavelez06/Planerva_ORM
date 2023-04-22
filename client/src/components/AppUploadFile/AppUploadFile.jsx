@@ -8,6 +8,7 @@ import {HiDocumentDuplicate} from "react-icons/hi"
 
 function AppUploadFile({ updateFileData }) {
   const [File, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -52,18 +53,31 @@ function AppUploadFile({ updateFileData }) {
   };
 
   const handleUpload = (e) => {
-    e.preventDefault(e);
+    e.preventDefault();
+
+    if (!File) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "¡No se seleccionó ningún archivo!",
+      });
+      return;
+    }
+
+    setUploading(true);
     const formData = new FormData();
     formData.append("file", File);
 
-    // todo - Hacer Control de Promesas
     axios
       .post(`${import.meta.env.VITE_MICROSERVICE_URL}/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-
       .then((response) => {
         setFile(null);
+        Swal.fire("¡Muy bien!", "¡El archivo se subió con éxito!", "success");
+        setTimeout(() => {
+          updateFileData();
+        }, 2000);
       })
       .catch((error) => {
         console.error(error);
@@ -72,6 +86,9 @@ function AppUploadFile({ updateFileData }) {
           title: "Oops...",
           text: "¡Algo salió mal!",
         });
+      })
+      .finally(() => { //!Funcion que se llama cuando se cumple o rechaza la promesa
+        setUploading(false);
       });
   };
 
@@ -95,19 +112,10 @@ function AppUploadFile({ updateFileData }) {
             className="upload"
             onClick={async (e) => {
               handleUpload(e);
-              // todo - Colocar una alerta para cuando los archivos se hayan subido éxitosamente
-              Swal.fire(
-                "Muy bien!",
-                "El archivo se subio con Exito!",
-                "success"
-              );
-              // todo - No setear set upload file como false hasta que la promesa esté resuelta
-              setTimeout(() => {
-                updateFileData();
-              }, 2000);
             }}
+            disabled={uploading}
           >
-            Subir
+            {uploading ? "Subiendo..." : "Subir"}
           </button>
 
           <button className="cancel" onClick={updateFileData}>
