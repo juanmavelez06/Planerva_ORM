@@ -18,12 +18,10 @@ CREATE TABLE budgetpersonals (
 );
 
 --Identificador CSV
-CREATE TABLE datacsv (
-    id_usuario INT (11) NOT NULL AUTO_INCREMENT,
-    data_csv VARCHAR (250) NOT NULL, 
-    creationdate datetime NOT NULL,
+CREATE TABLE storecsvs (
+    id int (11) NOT NULL auto_increment,
+    datacsv VARCHAR (250) NOT NULL, 
     createdAt datetime NOT NULL,
     updatedAt datetime NOT NULL,
-    PRIMARY KEY(data_csv)
+    PRIMARY KEY(id)
 );
-

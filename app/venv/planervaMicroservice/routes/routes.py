@@ -60,8 +60,9 @@ def upload():
     # print(archivo)
 
     df = pd.read_excel(os.path.join(PATHFILE, nombreArchivoID))
-    # print(df)
     data = df.to_dict(orient='records')
+    for row in data:
+        row["uuid"] = nombreArchivoID
     jsonData = json.dumps(data)
    # print(data)
     try:

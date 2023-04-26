@@ -2,6 +2,7 @@ import express from "express";
 import { Sequelize } from "sequelize";
 import db from "../database/db.js";
 import BudgetModel from "../models/BudgetModel.js";
+import CsvModel from "../models/CsvModel.js"
 import fs from 'fs';
 
 
@@ -9,12 +10,15 @@ import fs from 'fs';
 
 const router = express.Router();
 const dbconection = db;
+
 const Budget = BudgetModel;
+const Csv = CsvModel;
 
 router.post("/recibirDatos", async (req, res) => {
   // * Crear Controladores para esta ruta
   try {
-    // const data = req.body;
+    const data = req.body;
+    console.log(data)
     const newData = [];
     const months = {
       "Enero" : "January",
@@ -53,6 +57,7 @@ router.post("/recibirDatos", async (req, res) => {
       const facperformance = e.facperformance;
       const workersneeded = e.workersneeded;
       const workersneededStirng = JSON.stringify(workersneeded);
+      const csv = e.uuid;
 
       // ! Crea una instancia del modelo Budget y guarda los datos en la base de datos mysql
       Budget.create({
@@ -64,6 +69,9 @@ router.post("/recibirDatos", async (req, res) => {
         facperformance: facperformance,
         workersneeded: workersneededStirng,
       });
+      Csv.create({
+        datacsv: csv,
+      })
 
     });
 

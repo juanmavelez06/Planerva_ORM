@@ -19,6 +19,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', enconding:'utf8', extended: true})
 
 //Routes
 app.use("/budget", blogRoutes);
+app.use("/storecsv", blogRoutes);
+
 app.use(microservice); // !Rutas del microservicio
 
 //Initialize Database
