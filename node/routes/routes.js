@@ -3,6 +3,7 @@ import {
   createBlog,
   deleteBlog,
   getAllBlogs,
+  dowloadBudgets,
   updateBlog,
   controllerfile,
 } from "../controllers/BlogController.js";
@@ -18,6 +19,7 @@ const router = express.Router();
 
 router.post("/testfile", controllerfile);
 router.get("/staff", getAllBlogs);
+router.get("/staff/download", dowloadBudgets);
 router.post("/staff/add", createBlog);
 router.put("/staff/edit/:id", updateBlog);
 router.delete("/staff/delete/:id", deleteBlog);

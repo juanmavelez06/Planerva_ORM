@@ -4,7 +4,7 @@ import cors from "cors";
 import db from "./database/db.js";
 import blogRoutes from "./routes/routes.js";
 import microservice from "./routes/microservices.routes.js";
-import { PORT } from "./config.js"
+import { PORT } from "./config.js";
 
 //Initialize App
 const app = express();
@@ -14,13 +14,14 @@ app.use(cors());
 app.use(express.json());
 
 //! Limites de Datos para la carga de archivos desde Servidor
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', enconding:'utf8', extended: true}));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({ limit: "50mb", enconding: "utf8", extended: true })
+);
 
 //Routes
 app.use("/budget", blogRoutes);
 app.use("/storecsv", blogRoutes);
-
 app.use(microservice); // !Rutas del microservicio
 
 //Initialize Database

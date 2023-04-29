@@ -12,5 +12,9 @@ export const updatePositionRequest = async (staff, id) =>
 export const deletePositionRequest = async (id) =>
   await axios.delete(`${import.meta.env.VITE_SERVER_URL}/budget/staff/delete/${id}`);
 
+export const downloadBudgetStaff = async () => 
+await axios.get(`${import.meta.env.VITE_SERVER_URL}/budget/staff/download` ,{
+  responseType: "arraybuffer"
+});
 // export const addPositionRequestMicroservice = async () =>
 // await axios.post("/subirArchivos", Formdata);

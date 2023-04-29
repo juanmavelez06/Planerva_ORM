@@ -1,6 +1,56 @@
-import BudgetModel from '../models/BudgetModel.js'
+import BudgetModel from '../models/BudgetModel.js';
+import ExcelJS from 'exceljs';
 
 //Metodos para el Crud
+
+export const dowloadBudgets = async (req, res) => {
+  try {
+   
+    const budgets = await BudgetModel.findAll();
+    console.log(budgets)
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Presupuesto');
+    worksheet.columns = [
+        { header: 'Area', key: 'area' },
+        { header: 'Posicion', key: 'position' },
+        { header: 'Clasificación', key: 'classing' },
+        { header: 'Account', key: 'account' },
+        { header: 'RefSalarial', key:'refsalary'},
+        { header: 'FacPrestacional', key: 'facperformance' },
+        // { header: 'Enero', key: 'area' },
+        // { header: 'Febrero', key: 'position' },
+        // { header: 'Marzo', key: 'classing' },
+        // { header: 'Abril', key: 'area' },
+        // { header: 'Mayo', key: 'position' },
+        // { header: 'Junio', key: 'classing' },
+        // { header: 'Julio', key: 'area' },
+        // { header: 'Agosto', key: 'position' },
+        // { header: 'Septiembre', key: 'classing' },
+        // { header: 'Octubre', key: 'area' },
+        // { header: 'Noviembre', key: 'position' },
+        // { header: 'Diciembre', key: 'classing' },
+    ];
+    
+    budgets.forEach((budget) => {
+      worksheet.addRow({
+        area: budget.area,
+        position: budget.position,
+        classing: budget.classing,
+        account: budget.account,
+        refsalarial: budget.refsalary,
+        facperformance: budget.facperformance
+      });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    res.setHeader('Content-Disposition', 'attachment; filename=budgets.xlsx');
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.send(buffer);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+
+};
 
 //Mostrar todos los registros
 export const getAllBlogs = async (req, res) => {

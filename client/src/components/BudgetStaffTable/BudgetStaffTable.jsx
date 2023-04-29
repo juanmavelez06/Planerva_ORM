@@ -4,7 +4,9 @@ import { MdEdit, MdDelete, MdDeleteOutline } from "react-icons/md";
 import { BsCloudDownload } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { deletePositionRequest } from "../../api/api";
+import { downloadBudgetStaff } from "../../api/api";
 import Swal from "sweetalert2";
+import axios from 'axios';
 
 function BudgetStaffTable({
   budgetData,
@@ -33,6 +35,22 @@ function BudgetStaffTable({
       }catch (error) {
         Swal.fire("Eliminando", "Archivo eliminado con exito")
       }
+    }
+  };
+
+  const handleDowloadExcel = async () => {
+    try {
+      const response = await downloadBudgetStaff()
+      const blob = new Blob([response.data], {
+        type: "application/octet-stream",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "budgets.xlsx";
+      link.click();
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -99,7 +117,7 @@ function BudgetStaffTable({
           </a>
         </div>
         <div className="footer-btn download-staff">
-          <a>Descargar CSV</a> <BsCloudDownload />
+          <a onClick={handleDowloadExcel}>Descargar CSV</a> <BsCloudDownload />
         </div>
 
         <div className="footer-btn upload-staff">
