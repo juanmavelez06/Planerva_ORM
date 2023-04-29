@@ -3,7 +3,8 @@ import "./index.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { AiFillFileWord } from "react-icons/ai";
-import {HiDocumentDuplicate} from "react-icons/hi"
+import { HiDocumentDuplicate } from "react-icons/hi";
+import * as XLSX from "xlsx";
 
 
 function AppUploadFile({ updateFileData }) {
@@ -64,32 +65,68 @@ function AppUploadFile({ updateFileData }) {
       return;
     }
 
-    setUploading(true);
-    const formData = new FormData();
-    formData.append("file", File);
+    const requiredFields = ["position", "classing", "account"]; //!Nombre de los datos especificos que no quiero esten vacios 
 
-    axios
-      .post(`${import.meta.env.VITE_MICROSERVICE_URL}/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((response) => {
-        setFile(null);
-        Swal.fire("¡Muy bien!", "¡El archivo se subió con éxito!", "success");
-        setTimeout(() => {
-          updateFileData();
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "¡Algo salió mal!",
+    function hasEmptyFields(data) {
+      const hasEmpty = data.some((row) => {
+        return requiredFields.some((column) => {
+          const value = row[column];
+          return value === undefined || value === null || value === "";
         });
-      })
-      .finally(() => { //!Funcion que se llama cuando se cumple o rechaza la promesa
-        setUploading(false);
       });
+      return hasEmpty;
+    }
+
+    const readFile = new FileReader();
+    readFile.onload = (e) => {
+      const binaryString = e.target.result;
+      const workbook = XLSX.read(binaryString, { type: "binary" });
+
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+
+      const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      console.log("Data:", data);
+
+      if (hasEmptyFields(data)) {
+        console.log("Hay campos vacíos en el archivo");
+        Swal.fire(
+          "¡Error!",
+          "¡El archivo no se subió debido a que tiene campos vacíos!",
+          "error"
+        );
+        return;
+      }
+      setUploading(true);
+      const formData = new FormData();
+      formData.append("file", File);
+
+      axios
+        .post(`${import.meta.env.VITE_MICROSERVICE_URL}/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => {
+          setFile(null);
+          Swal.fire("¡Muy bien!", "¡El archivo se subió con éxito!", "success");
+          setTimeout(() => {
+            updateFileData();
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error(error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "¡Algo salió mal!",
+          });
+        })
+        .finally(() => {
+          setUploading(false);
+        });
+    };
+  
+    readFile.readAsBinaryString(File);
   };
 
   return (
@@ -125,10 +162,10 @@ function AppUploadFile({ updateFileData }) {
       </div>
 
       <div className="content_img">
-        <HiDocumentDuplicate className="img_optimal"/>
+        <HiDocumentDuplicate className="img_optimal" />
       </div>
     </React.Fragment>
   );
 }
 
-export default AppUploadFile;
+export default AppUploadFile;
