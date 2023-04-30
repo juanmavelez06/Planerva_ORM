@@ -1,14 +1,36 @@
-import CsvModel from '../models/CsvModel.js'
+import CsvModel from "../models/CsvModel.js";
+import log4js from "log4js";
 
+log4js.configure({
+  appenders: {
+    console: { type: "console" },
+    file: { type: "file", filename: "logs/app.log" },
+    error: {
+      type: "file",
+      filename: "logs/error.log",
+      layout: {
+        type: "pattern",
+        pattern: "[%d] [%p] [%c] - %m %n %f:%l %x{user} %x{trace}",
+      },
+    },
+  },
+  categories: {
+    default: { appenders: ["console", "file"], level: "info" },
+    error: { appenders: ["error"], level: "error" },
+  },
+});
+
+const logger = log4js.getLogger("error");
 
 //Mostrar todos los registros
 export const getAllcsv = async (req, res) => {
   try {
     const csv = await CsvModel.findAll(); //findAll me trae todo
     res.json(csv); //Respuesta en Json y como devolucion recibiremos los datos
-  } catch (error) {
-    res.json({ message: error.message });
-  }
+  }catch (error) {
+      logger.error(`Error al obtener los registros: ${error}`);
+      res.json({ message: error.message });
+    }
 };
 
 //Crear un Registro
@@ -19,10 +41,10 @@ export const createcsv = async (req, res) => {
       message: "¡Registro creado correctamente!", //Formato clave - valor
     });
   } catch (error) {
+    logger.error(`Error al crear el registro: ${error}`);
     res.json({ message: error.message });
   }
 };
-
 
 //Actualizar un registro
 export const updatecsv = async (req, res) => {
@@ -35,6 +57,7 @@ export const updatecsv = async (req, res) => {
       message: "¡Registro actualizado correctamente!",
     });
   } catch (error) {
+    logger.error(`Error al actualizar el registro: ${error}`);
     res.json({ message: error.message });
   }
 };
@@ -48,7 +71,8 @@ export const deletecsv = async (req, res) => {
     res.json({
       message: "¡Registro eliminado con exito!",
     });
-  } catch (error) {}
+  } catch (error) {
+    logger.error(`Error al eliminar el registro: ${error}`);
+    res.json({ message: error.message });
+  }
 };
-
-

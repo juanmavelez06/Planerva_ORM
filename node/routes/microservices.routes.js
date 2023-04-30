@@ -4,15 +4,30 @@ import db from "../database/db.js";
 import BudgetModel from "../models/BudgetModel.js";
 import CsvModel from "../models/CsvModel.js"
 import fs from 'fs';
+import log4js from "log4js";
 
+log4js.configure({
+  appenders: {
+    console: { type: "console" },
+    file: { type: "file", filename: "logs/app.log" },
+    error: { type: "file", filename: "logs/error.log" },
+  },
+  categories: {
+    default: { appenders: ["console", "file"], level: "info" },
+    error: { appenders: ["error"], level: "error" },
+  },
+});
 
 // !Función que corre los datos del microservicio y los guarda en la base de datos.
 
+const logger = log4js.getLogger();
+
 const router = express.Router();
 const dbconection = db;
-
 const Budget = BudgetModel;
 const Csv = CsvModel;
+
+
 
 router.post("/recibirDatos", async (req, res) => {
   // * Crear Controladores para esta ruta
@@ -77,11 +92,10 @@ router.post("/recibirDatos", async (req, res) => {
 
     res.send("Datos guardados correctamente.");
   } catch (error) {
-    console.error("Ocurrio un error al guardar los datos", error);
+    logger.error(`${new Date().toISOString()} - ${error.stack}`);
     res.status(500).send("Ocurrio un error al guardar los datos.");
-
+    
     //! Registra el error en un archivo de regsitro llamado error.log permitiendo revisar el registro de errores ocurridos en proyecto - esta en fase de pruebas
-
     fs.appendFileSync(
       "error.log",
       `${new Date().toISOString()} - ${error.message}\n`
@@ -91,9 +105,10 @@ router.post("/recibirDatos", async (req, res) => {
 
 try {
   await dbconection.authenticate();
-  console.log("La conexion se dio con exito");
+  console.log("La conexion a la base de datos se dio con exito");
 } catch (error) {
-  console.log("Error al conectarse con la base de Datos :", error);
+  logger.error(`Error al conectarse con la base de Datos: ${error}`);
+  
 }
 
 export default router;

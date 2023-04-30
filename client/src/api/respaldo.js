@@ -10,7 +10,6 @@ import * as XLSX from "xlsx";
 function AppUploadFile({ updateFileData }) {
   const [File, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [readExcel, setreadExcel] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -88,12 +87,15 @@ function AppUploadFile({ updateFileData }) {
       const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
       if (hasEmptyFields(data)) {
-        readExcel(true)
+        Swal.fire(
+          "¡Error!",
+          "¡El archivo no se subió debido a que tiene celdas vacías!",
+          "¡Algo salió mal!"
+        );
         return;
       }
     };
     readFile.readAsBinaryString(File);
-
 
     setUploading(true);
       const formData = new FormData();
@@ -112,20 +114,11 @@ function AppUploadFile({ updateFileData }) {
         })
         .catch((error) => {
           console.error(error);
-          if(!readExcel){
-            Swal.fire({
+          Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "¡El archivo no se subió debido a que tiene celdas vacías!",
-            });
-            return;
-          }else{
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "¡Algo salió mal!",
-            });
-          }
+            text: "¡Algo salió mal!",
+          });
         })
         .finally(() => {
           setUploading(false);

@@ -1,7 +1,27 @@
 import BudgetModel from '../models/BudgetModel.js';
 import ExcelJS from 'exceljs';
+import log4js from "log4js";
 
-//Metodos para el Crud
+log4js.configure({
+  appenders: {
+    console: { type: "console" },
+    file: { type: "file", filename: "logs/app.log" },
+    error: {
+      type: "file",
+      filename: "logs/error.log",
+      layout: {
+        type: "pattern",
+        pattern: "[%d] [%p] [%c] - %m %n %f:%l %x{user} %x{trace}",
+      },
+    },
+  },
+  categories: {
+    default: { appenders: ["console", "file"], level: "info" },
+    error: { appenders: ["error"], level: "error" },
+  },
+});
+
+const logger = log4js.getLogger("error");
 
 export const dowloadBudgets = async (req, res) => {
   try {
@@ -17,18 +37,17 @@ export const dowloadBudgets = async (req, res) => {
         { header: 'Account', key: 'account' },
         { header: 'RefSalarial', key:'refsalary'},
         { header: 'FacPrestacional', key: 'facperformance' },
-        // { header: 'Enero', key: 'area' },
-        // { header: 'Febrero', key: 'position' },
-        // { header: 'Marzo', key: 'classing' },
-        // { header: 'Abril', key: 'area' },
-        // { header: 'Mayo', key: 'position' },
-        // { header: 'Junio', key: 'classing' },
-        // { header: 'Julio', key: 'area' },
-        // { header: 'Agosto', key: 'position' },
-        // { header: 'Septiembre', key: 'classing' },
-        // { header: 'Octubre', key: 'area' },
-        // { header: 'Noviembre', key: 'position' },
-        // { header: 'Diciembre', key: 'classing' },
+        // { header: 'Enero', key: 'Enero' },
+        // { header: 'Febrero', key: 'Febrero' },
+        // { header: 'Marzo', key: 'Marzo' },
+        // { header: 'Abril', key: 'Junio' },
+        // { header: 'Mayo', key: 'Julio' },
+        // { header: 'Junio', key: 'Agosto' },
+        // { header: 'Julio', key: 'Septiembre' },
+        // { header: 'Agosto', key: 'Octubre' },
+        // { header: 'Septiembre', key: 'Noviembre' },
+        // { header: 'Octubre', key: 'Diciembre' },
+
     ];
     
     budgets.forEach((budget) => {
@@ -46,8 +65,10 @@ export const dowloadBudgets = async (req, res) => {
     res.setHeader('Content-Disposition', 'attachment; filename=budgets.xlsx');
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.send(buffer);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    logger.error(`Error al recorrer los registros: ${error}`)
+    res.json({ message: error.message });
+    // res.status(500).json({ message: error.message });
   }
 
 };
@@ -58,21 +79,22 @@ export const getAllBlogs = async (req, res) => {
     const budgets = await BudgetModel.findAll(); //findAll me trae todo
     res.json(budgets); //Respuesta en Json y como devolucion recibiremos los datos
   } catch (error) {
+    logger.error(`Error al obtener los registros: ${error}`);
     res.json({ message: error.message });
   }
 };
 
-//Mostrar un registro
-export const getBlog = async (req, res) => {
-  try {
-    const budget = await BudgetModel.findAll({
-      where: { id: req.params.id },
-    });
-    res.json(budget[0]); 
-  } catch (error) {
-    res.json({ message: error.message });
-  }
-};
+// //Mostrar un registro
+// export const getBlog = async (req, res) => {
+//   try {
+//     const budget = await BudgetModel.findAll({
+//       where: { id: req.params.id },
+//     });
+//     res.json(budget[0]); 
+//   } catch (error) {
+//     res.json({ message: error.message });
+//   }
+// };
 
 //Crear un Registro
 export const createBlog = async (req, res) => {
@@ -82,6 +104,7 @@ export const createBlog = async (req, res) => {
       message: "¡Registro creado correctamente!", //Formato clave - valor
     });
   } catch (error) {
+    logger.error(`Error al crear el registro: ${error}`);
     res.json({ message: error.message });
   }
 };
@@ -98,6 +121,7 @@ export const updateBlog = async (req, res) => {
       message: "¡Registro actualizado correctamente!",
     });
   } catch (error) {
+    logger.error(`Error al actualizar el registro: ${error}`);
     res.json({ message: error.message });
   }
 };
@@ -111,7 +135,10 @@ export const deleteBlog = async (req, res) => {
     res.json({
       message: "¡Registro eliminado con exito!",
     });
-  } catch (error) {}
+  } catch (error) {
+    logger.error(`Error al eliminar el registro: ${error}`);
+    res.json({ message: error.message });
+  }
 };
 
 export const controllerfile = async (req, res) =>{

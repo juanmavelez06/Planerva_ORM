@@ -73,7 +73,7 @@ def upload():
    # print(data)
     try:
         if data:
-            url = "http://127.0.0.1:3000/recibirDatos"
+            url = "http://127.0.0.1:3001/recibirDatos"
             headers = {'Content-Type': 'application/json'}
             response = requests.post(url, data=jsonData, headers=headers)
             logging.info(f" Código de estado de la solicitud {response.status_code}")
@@ -100,4 +100,4 @@ def upload():
 
     except requests.exceptions.ConnectionError as e:
         logging.error(f'Error en la conexión {e}')
-    return requestsError("error al cargar el archivo, revisa las condiciones establecidas para la carga de archivos", e)
+    return requestsError("error al cargar el archivo, revisa las condiciones establecidas para la carga de archivos")
